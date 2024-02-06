@@ -4,20 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Auth;
-class Cita extends Model
+
+class DetalleServicio extends Model
 {
     use HasFactory;
-    protected $table='citas';
+    protected $table='detalle_servicio';
     protected $fillable = [
         'id_servicio',
-        'fecha_hora',
-        'km',
-        'descripcion'
+        'id_tipo_servicio'
     ];
     public function servicio()
     {
         return $this->belongsTo(Servicio::class, 'id_servicio');
+    }
+
+    public function tipoServicio()
+    {
+        return $this->belongsTo(TipoServicio::class, 'id_tipo_servicio');
     }
 }
