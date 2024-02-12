@@ -6,6 +6,11 @@
     <section id="basic-input">
       <div class="row">
         <div class="col-md-12">
+          <div>
+            <div class="alert alert-success p-2" id="respuesta" style="display: none;">
+              <p></p>
+            </div>
+          </div>
           {!! Form::open(['route' => isset($articulo) ? ['articulo.update', $articulo->id] : 'articulo.store', 'method' => isset($articulo) ? 'PUT' : 'POST', 'enctype' => 'multipart/form-data']) !!}
           <div class="card">
             <div class="card-header">
@@ -25,10 +30,13 @@
                 <div class="row">
                   <div class="col-md-10">
                     <div class="row">
-                      <div class="col-md-4">
-                        <div class="form-group">
+                      <div class="col-md-4">                        
                           <label>Categoria:</label>
-                          <select class="form-select @if($errors->has('categoria')) border border-danger @endif" name="categoria">
+                        <div class="input-group" id="selectCont">
+                          <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#addArticulo">
+                            <i data-feather='plus'></i>
+                          </button>
+                          <select class="form-select @if($errors->has('categoria')) border border-danger @endif" name="categoria" id="categoria">
                             <option>Seleccione...</option>
                             @foreach ($categoria as $cat)
                             <option value="{{ $cat->id }}" {{ (isset($articulo) && $articulo->id_categoria == $cat->id) || old('categoria') == $cat->id ? 'selected' : '' }}>
@@ -64,7 +72,7 @@
                   <div class="col-md-2">
                     <div>
                       <a href="#" class="me-25">
-                        <img src="{{ asset('images/product.png')}}" id="avatar-img" class="uploadedAvatar rounded mx-75" alt="profile image" height="130" width="130"/>
+                        <img src="{{ isset($articulo) ? asset('imagenes/articulo/' . $articulo->imagen) : asset('images/product.png') }}" id="avatar-img" class="uploadedAvatar rounded mx-75" alt="profile image" height="130" width="130"/>
                       </a>
                       <!-- upload and reset button -->
                       <div class="d-flex align-items-end mt-75">
@@ -94,22 +102,41 @@
           {!! Form::close() !!}
         </div>
       </div>
+      <div class="modal fade" id="addArticulo" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header bg-transparent">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="Btnclose"></button>
+            </div>
+            <div class="modal-body px-sm-5 mx-50 pb-5">
+              <h1 class="text-center mb-1" id="addNewCardTitle">Categoria</h1>
+              <p class="text-center">Crear nueva Categoria</p>
+              {!! Form::open(['id' => 'FormCategoria']) !!}
+                <div class="col-md-12">
+                  <label class="form-label" for="modalAddCardName">Nombre:</label>
+                  <input type="text" name="nombreC" class="form-control" placeholder="..." />
+                  <span class="text-danger" id="errorNombre"></span>
+                </div>
+                <div class="col-md-12 col-md-3">
+                  <label class="form-label" for="modalAddCardExpiryDate">Descripción</label>
+                  <textarea class="form-control" name="descripcionC" placeholder="..."></textarea>
+                  <span class="text-danger" id="errorDescripcion"></span>
+                </div>
+                <div class="col-12 text-center">
+                  <button type="submit" class="btn btn-success me-1 mt-1">Guardar</button>
+                  <button type="reset" class="btn btn-outline-secondary mt-1" data-bs-dismiss="modal" aria-label="Close">
+                    Cancelar
+                  </button>
+                </div>
+              {!! Form::close() !!}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </div>
 @endsection
-
-@push('scripts-vendor')
-
-<!-- BEGIN: Page Vendor JS-->
-<script src="{!! asset('app-assets/vendors/js/forms/select/select2.full.min.js') !!}"></script>
-<!-- END: Page Vendor JS-->
-<!-- BEGIN: Page JS-->
-<script src="{!! asset('app-assets/js/scripts/forms/form-select2.js') !!}"></script>
-<!-- END: Page JS-->
-
-
-@endpush
 @push('scripts-vendor')
 <script>
   $(document).ready( function () {
@@ -133,6 +160,48 @@
       $imagenPrevisualizacion.src = objectURL;
       });
   });
+  $(document).ready(function(){
+    $('#FormCategoria').submit(function(event){
+      event.preventDefault();
 
+      var formData = $(this).serialize();
+
+      $.ajax({
+        url: "{{ route('categoria.store') }}",
+        type: "POST",
+        data: formData,
+        success: function(response){
+          $('#resultado').html(response);
+          console.log("Petición exitosa:", response);
+          $('#respuesta p').text(response.success);
+          $('#respuesta').show();
+          $('#addArticulo').modal('hide');
+          listar(response.categoria);
+        },
+        error: function(xhr, textStatus, errorThrown){
+
+          var errors = xhr.responseJSON;
+
+          console.log(errors.errors)
+
+          if (errors.errors.hasOwnProperty('descripcionC')) {
+            $('#errorDescripcion').text(errors.errors.descripcionC[0]);
+            $('textarea[name=descripcionC]').addClass('border border-danger');
+          }
+          if (errors.errors.hasOwnProperty('nombreC')) {
+            $('#errorNombre').text(errors.errors.nombreC[0]);
+            $('input[name=nombreC]').addClass('border border-danger');
+          }
+        }
+      });
+    });
+  });
+  function listar(categoria){
+    $('#categoria').empty();
+    $('#categoria').append('<option>Seleccione...</option>');
+    $.each(categoria, function(index, cat){
+      $('#categoria').append('<option value="' + cat.id + '">' + cat.nombre + '</option>');
+    });
+  }
 </script>
 @endpush

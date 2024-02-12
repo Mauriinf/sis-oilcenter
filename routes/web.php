@@ -7,7 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PerfilController;
 
-
+use App\Http\Controllers\CategoriaController as Categoria;
 use App\Http\Controllers\ArticuloController as Articulo;
 use App\Http\Controllers\IngresoController as Ingreso;
 
@@ -42,6 +42,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::put('/perfil', [PerfilController::class, 'actualizar'])->name('perfil.actualizar');
     Route::get('/password', [PerfilController::class, 'password'])->name('password');
     Route::put('/password', [PerfilController::class, 'password_actualizar'])->name('password.actualizar');
+
+    Route::get('/categoria', [Categoria::class, 'index'])->name('categoria.index');
+    Route::post('/categoria', [Categoria::class, 'store'])->name('categoria.store');
+    Route::put('/categoria/{id}', [Categoria::class, 'update'])->name('categoria.update');
 
     Route::get('/articulo', [Articulo::class, 'index'])->name('articulo.index');
     Route::get('articulo/create', [Articulo::class, 'create'])->name('articulo.create');
