@@ -7,6 +7,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PerfilController;
 
+
+use App\Http\Controllers\ArticuloController as Articulo;
+use App\Http\Controllers\IngresoController as Ingreso;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -38,5 +42,24 @@ Route::group(['middleware' => ['auth']], function() {
     Route::put('/perfil', [PerfilController::class, 'actualizar'])->name('perfil.actualizar');
     Route::get('/password', [PerfilController::class, 'password'])->name('password');
     Route::put('/password', [PerfilController::class, 'password_actualizar'])->name('password.actualizar');
+
+    Route::get('/articulo', [Articulo::class, 'index'])->name('articulo.index');
+    Route::get('articulo/create', [Articulo::class, 'create'])->name('articulo.create');
+    Route::post('/articulo', [Articulo::class, 'store'])->name('articulo.store');
+    Route::get('articulo/edit/{id}', [Articulo::class, 'edit'])->name('articulo.edit');
+    Route::put('/articulo/{id}', [Articulo::class, 'update'])->name('articulo.update');
+    Route::get('/articulo/disable/{id}', [Articulo::class, 'disable'])->name('articulo.disable');  
+    Route::get('/articulo/enable/{id}', [Articulo::class, 'enable'])->name('articulo.enable');
+
+    Route::get('/ingreso', [Ingreso::class, 'index'])->name('ingreso.index');
+    Route::get('ingreso/create', [Ingreso::class, 'create'])->name('ingreso.create');
+    Route::post('/ingreso', [Ingreso::class, 'store'])->name('ingreso.store');
+    Route::get('ingreso/show/{id}', [Ingreso::class, 'show'])->name('ingreso.show');
+    Route::get('ingreso/edit/{id}', [Ingreso::class, 'edit'])->name('ingreso.edit');
+    Route::put('/ingreso/{id}', [Ingreso::class, 'update'])->name('ingreso.update');
+    Route::put('/ingreso/show/payment/{id}', [Ingreso::class, 'payment'])->name('ingreso.show.payment');
+    Route::get('/ingreso/cancel/{id}', [Ingreso::class, 'cancel'])->name('ingreso.cancel');
+
+
 
 });

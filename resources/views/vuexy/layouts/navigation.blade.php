@@ -30,6 +30,16 @@
                 </a>
             </li>
             @endcan
+            <li class=" nav-item {{ $activePage == 'articulo' ? ' active' : '' }} ">
+                <a class="d-flex align-items-center" href="{{ route('articulo.index') }}">
+                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Articulo"></span>Articulo
+                </a>
+            </li>
+            <li class=" nav-item {{ $activePage == 'ingreso' ? ' active' : '' }} ">
+                <a class="d-flex align-items-center" href="{{ route('ingreso.index') }}">
+                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Ingreso"></span>Ingreso
+                </a>
+            </li>
 
         </ul>
     </div>
