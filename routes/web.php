@@ -10,6 +10,7 @@ use App\Http\Controllers\PerfilController;
 
 use App\Http\Controllers\ArticuloController as Articulo;
 use App\Http\Controllers\IngresoController as Ingreso;
+use App\Http\Controllers\TipoServicioController as Tipos;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,7 +49,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/articulo', [Articulo::class, 'store'])->name('articulo.store');
     Route::get('articulo/edit/{id}', [Articulo::class, 'edit'])->name('articulo.edit');
     Route::put('/articulo/{id}', [Articulo::class, 'update'])->name('articulo.update');
-    Route::get('/articulo/disable/{id}', [Articulo::class, 'disable'])->name('articulo.disable');  
+    Route::get('/articulo/disable/{id}', [Articulo::class, 'disable'])->name('articulo.disable');
     Route::get('/articulo/enable/{id}', [Articulo::class, 'enable'])->name('articulo.enable');
 
     Route::get('/ingreso', [Ingreso::class, 'index'])->name('ingreso.index');
@@ -60,6 +61,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::put('/ingreso/show/payment/{id}', [Ingreso::class, 'payment'])->name('ingreso.show.payment');
     Route::get('/ingreso/cancel/{id}', [Ingreso::class, 'cancel'])->name('ingreso.cancel');
 
+    //Categorias
 
-
+    Route::get('tipos/servicios', [Tipos::class,'index'])->name('tiposervicio.index');
+    Route::get('lista/tipos/servicios', [Tipos::class,'lista_tipos'])->name('lista.tiposervicio');
+    Route::post('/guardar/tipo/servicio', [Tipos::class, 'store'])->name('tiposervicio.save');
+    Route::post('/editar/tipo/servicio', [Tipos::class, 'update'])->name('tiposervicio.edit');
 });
