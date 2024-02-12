@@ -62,7 +62,7 @@ class IngresoController extends Controller
 
 
     if (!empty($ingreso)) {
-      return Redirect::to('ingreso')->with('success', 'El ingreso ha sido realizado correctamente.');
+      return Redirect::to('ingreso')->with('success', 'El registro ha sido guardado correctamente.');
     }else{
       return view('/ingreso')->withErrors('No se pudo guardar el ingreso, vuelva a intentarlo.');
     }
@@ -96,7 +96,7 @@ class IngresoController extends Controller
     ]);
 
     if (!empty($articulo)) {
-      return Redirect::to('articulo')->with('success', 'El artículo ha sido modificado correctamente.');
+      return Redirect::to('articulo')->with('success', 'El registro ha sido modificado correctamente.');
     }else{
       return view('/articulo')->withErrors('No se pudo modificar el registro, vuelva a intentarlo.');
     }
@@ -120,7 +120,7 @@ class IngresoController extends Controller
     ]);
 
     if (!empty($articulo)) {
-      return Redirect::to('articulo');
+      return Redirect::to('articulo')->with('success', 'El registro ha sido anulado correctamente.');;
     }else{
       return view('articulo')->withErrors('No se pudo inhabilitar el registro, vuelva a intentarlo.');
     }
@@ -131,7 +131,7 @@ class IngresoController extends Controller
     $ingreso->delete();   
 
     if (!empty($ingreso)) {
-      return Redirect::to('ingreso')->with('success', 'El artículo ha sido eliminado correctamente.');
+      return Redirect::to('ingreso')->with('success', 'El registro ha sido eliminado correctamente.');
     }else{
       return view('ingreso')->withErrors('No se pudo inhabilitar el registro, vuelva a intentarlo.');
     }
@@ -147,7 +147,7 @@ class IngresoController extends Controller
     $stock = $articulo->cancel($ingreso);
 
     if (!empty($cancel)) {
-      return Redirect::to('ingreso')->with('success', 'El artículo ha sido anulado correctamente.');
+      return Redirect::to('ingreso')->with('success', 'El registro ha sido anulado correctamente.');
     }else{
       return view('/ingreso')->withErrors('No se pudo anular el registro, vuelva a intentarlo.');
     }

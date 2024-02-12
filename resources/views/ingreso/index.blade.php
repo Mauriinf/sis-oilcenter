@@ -45,7 +45,6 @@
                     <table class="table table-striped table-bordered table-td-valign-middle dt-responsive" id="dt-Ingreso">
                       <thead class="thead" align="center">
                         <tr>
-                          <th><i data-feather='life-buoy'></i></th>
                           <th>#</th>
                           <th>Proveedor</th>
                           <th>Almacenero</th>
@@ -54,11 +53,24 @@
                           <th>Cancelado</th>
                           <th>Deuda</th>
                           <th>Estado</th>
+                          <th><i data-feather='life-buoy'></i></th>
                         </tr>
                       </thead>
                       <tbody>
                         @foreach ($ingreso as $ing)
                         <tr>
+                          <td>{{ $loop->iteration }}</td>
+                          <td>{{ $ing->proveedor->nombres }}</td>
+                          <td>{{ $ing->almacenero->nombres }}</td>
+                          <td>{{ $ing->monto_total }}</td>
+                          <td>{{ $ing->fecha_hora }}</td>
+                          <td>{{ $ing->monto_cancelado }}</td>
+                          <td>{{ $ing->monto_deuda }}</td>
+                          @if($ing->estado == 1)
+                          <td><span class="badge badge-light-success w-100">ACTIVO</span></td>
+                          @else
+                          <td><span class="badge badge-light-danger w-100">ANULADO</span></td>
+                          @endif                          
                           <td>
                             <div>
                               <a class="btn btn-sm btn-info" data-toggle="tooltip" title="Mostrar" href="{{ route('ingreso.show',$ing->id) }}">
@@ -77,18 +89,6 @@
                               {!! Form::close() !!}
                             </div>
                           </td>
-                          <td>{{ $loop->iteration }}</td>
-                          <td>{{ $ing->proveedor->nombres }}</td>
-                          <td>{{ $ing->almacenero->nombres }}</td>
-                          <td>{{ $ing->monto_total }}</td>
-                          <td>{{ $ing->fecha_hora }}</td>
-                          <td>{{ $ing->monto_cancelado }}</td>
-                          <td>{{ $ing->monto_deuda }}</td>
-                          @if($ing->estado == 1)
-                          <td><span class="badge badge-light-success w-100">ACTIVO</span></td>
-                          @else
-                          <td><span class="badge badge-light-danger w-100">ANULADO</span></td>
-                          @endif
                         </tr>
                         @endforeach
                       </tbody>

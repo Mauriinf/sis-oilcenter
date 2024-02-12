@@ -45,7 +45,6 @@
                     <table class="table table-striped table-bordered table-td-valign-middle dt-responsive" id="dt-Articulo">
                       <thead class="thead" align="center">
                         <tr>
-                          <th><i data-feather='life-buoy'></i></th>
                           <th>#</th>
                           <th>Categoria</th>
                           <th>Código</th>
@@ -54,11 +53,24 @@
                           <th>Descripción</th>
                           <th>Imagen</th>
                           <th>Estado</th>
+                          <th><i data-feather='life-buoy'></i></th>
                         </tr>
                       </thead>
                       <tbody>
                         @foreach ($articulo as $art)
                         <tr>
+                          <td>{{$loop->iteration }}</td>
+                          <td>{{ $art->codigo }}</td>
+                          <td>{{$art->categoria->nombre }}</td>
+                          <td>{{ $art->nombre }}</td>
+                          <td>{{ $art->stock }}</td>
+                          <td>{{ $art->descripcion }}</td>
+                          <td><img src="{{ asset('imagenes/articulo/'.$art->imagen) }}" alt="100" width="50"></td>
+                          @if($art->estado == 1)
+                          <td><span class="badge badge-light-success w-100">ACTIVO</span></td>
+                          @else
+                          <td><span class="badge badge-light-danger w-100">INACTIVO</span></td>
+                          @endif
                           <td>
                             <div>
                               <a class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" href="{{ route('articulo.edit',$art->id) }}">
@@ -78,18 +90,6 @@
                               {!! Form::close() !!}
                             </div>
                           </td>
-                          <td>{{$loop->iteration }}</td>
-                          <td>{{ $art->codigo }}</td>
-                          <td>{{$art->categoria->nombre }}</td>
-                          <td>{{ $art->nombre }}</td>
-                          <td>{{ $art->stock }}</td>
-                          <td>{{ $art->descripcion }}</td>
-                          <td><img class="avatar" src="{{ asset('storage/images/'.$art->imagen) }}" alt="Imagen"></td>
-                          @if($art->estado == 1)
-                          <td><span class="badge badge-light-success w-100">ACTIVO</span></td>
-                          @else
-                          <td><span class="badge badge-light-danger w-100">INACTIVO</span></td>
-                          @endif
                         </tr>
                         @endforeach
                       </tbody>

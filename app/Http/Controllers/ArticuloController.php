@@ -30,12 +30,12 @@ class ArticuloController extends Controller
   }
   public function store(ArticuloFormRequest $request){
 
-    $nombreArchivo = '';
+    $nombreImagen = '';
     if ($request->hasFile('avatar')) {
 
       $imagen = $request->file('avatar');
-      $nombreArchivo = Str::random(10) . '.' . $imagen->getClientOriginalExtension();
-      $ruta = $imagen->storeAs('images/articulo', $nombreArchivo);
+      $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+      $imagen->move(public_path('imagenes/articulo'), $nombreImagen);
 
     }
 
@@ -44,7 +44,7 @@ class ArticuloController extends Controller
       'nombre' => $request->get('nombre'),
       'stock' => 0,
       'descripcion' => $request->get('descripcion'),
-      'imagen' => $nombreArchivo,
+      'imagen' => $nombreImagen,
       'estado' => 1,
       'codigo' => $request->get('codigo')
     ]);
@@ -63,15 +63,21 @@ class ArticuloController extends Controller
   }
   public function update(ArticuloFormRequest $request, $id){
 
-    $imagen = $request->file('avatar');
-        $ruta = $imagen->store('images');
+    $nombreImagen = '';
+    if ($request->hasFile('avatar')) {
+
+      $imagen = $request->file('avatar');
+      $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+      $imagen->move(public_path('imagenes/articulo'), $nombreImagen);
+
+    }
 
     $articulo = Articulo::findOrFail($id)->update([
       'id_categoria' => $request->get('categoria'),
       'nombre' => $request->get('nombre'),
       'stock' => $request->get('stock'),
       'descripcion' => $request->get('descripcion'),
-      'imagen' => $ruta,
+      'imagen' => $nombreImagen,
       'estado' => 1,
       'codigo' => $request->get('codigo')
     ]);
@@ -94,7 +100,7 @@ class ArticuloController extends Controller
     ]);
 
     if (!empty($articulo)) {
-      return Redirect::to('articulo');
+      return Redirect::to('articulo')->with('success', 'El articulo fue habilitado correctamente');
     }else{
       return view('articulo')->withErrors('No se pudo habilitar el registro, vuelva a intentarlo.');
     }
@@ -106,7 +112,7 @@ class ArticuloController extends Controller
     ]);
 
     if (!empty($articulo)) {
-      return Redirect::to('articulo');
+      return Redirect::to('articulo')->with('success', 'El articulo fue inhabilitado correctamente');
     }else{
       return view('articulo')->withErrors('No se pudo inhabilitar el registro, vuelva a intentarlo.');
     }
