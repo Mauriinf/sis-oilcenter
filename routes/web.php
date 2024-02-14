@@ -12,6 +12,11 @@ use App\Http\Controllers\ArticuloController as Articulo;
 use App\Http\Controllers\IngresoController as Ingreso;
 use App\Http\Controllers\VentaController as Venta;
 
+
+use App\Http\Controllers\TipoServicioController as Tipos;
+use App\Http\Controllers\ServicioController as Servicios;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -53,7 +58,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/articulo', [Articulo::class, 'store'])->name('articulo.store');
     Route::get('articulo/edit/{id}', [Articulo::class, 'edit'])->name('articulo.edit');
     Route::put('/articulo/{id}', [Articulo::class, 'update'])->name('articulo.update');
-    Route::get('/articulo/disable/{id}', [Articulo::class, 'disable'])->name('articulo.disable');  
+    Route::get('/articulo/disable/{id}', [Articulo::class, 'disable'])->name('articulo.disable');
     Route::get('/articulo/enable/{id}', [Articulo::class, 'enable'])->name('articulo.enable');
 
     Route::get('/ingreso', [Ingreso::class, 'index'])->name('ingreso.index');
@@ -75,4 +80,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/venta/cancel/{id}', [Venta::class, 'cancel'])->name('venta.cancel');
 
 
+    Route::get('tipos/servicios', [Tipos::class,'index'])->name('tiposervicio.index');
+    Route::get('lista/tipos/servicios', [Tipos::class,'lista_tipos'])->name('lista.tiposervicio');
+    Route::post('/guardar/tipo/servicio', [Tipos::class, 'store'])->name('tiposervicio.save');
+    Route::post('/editar/tipo/servicio', [Tipos::class, 'update'])->name('tiposervicio.edit');
+    //Servicios
+    Route::get('servicios', [Servicios::class,'index'])->name('servicios.index');
+    Route::get('servicio/create', [Servicios::class, 'create'])->name('servicio.create');
+    Route::post('/servicio', [Servicios::class, 'store'])->name('servicio.store');
+    Route::get('servicio/show/{id}', [Servicios::class, 'show'])->name('servicio.show');
+    Route::get('/servicio/cancel/{id}', [Servicios::class, 'cancel'])->name('servicio.cancel');
 });

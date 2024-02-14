@@ -21,7 +21,7 @@ class Servicio extends Model
         return $this->belongsTo(User::class, 'id_cliente');
     }
 
-    public function vendedor()
+    public function mecanico()
     {
         return $this->belongsTo(User::class, 'id_usuario');
     }
@@ -29,5 +29,9 @@ class Servicio extends Model
     public function detalleServicios()
     {
         return $this->hasMany(DetalleServicio::class, 'id_servicio');
+    }
+    public function citas()
+    {
+        return $this->hasOne(Cita::class, 'id_servicio');
     }
 }

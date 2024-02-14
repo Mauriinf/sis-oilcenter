@@ -60,8 +60,14 @@ class User extends Authenticatable
     public function cliente(){
         return $this->hasOne(Venta::class, 'id_cliente', 'id');
     }
-    public function vendedor(){
+    public function vendedor_v(){
         return $this->hasOne(Venta::class, 'id_vendedor', 'id');
+    }
+    public function vendedor{
+        return $this->hasOne(Servicio::class, 'id_cliente', 'id');
+    }
+    public function mecanico(){
+        return $this->hasOne(Servicio::class, 'id_usuario', 'id');
     }
 
 }
