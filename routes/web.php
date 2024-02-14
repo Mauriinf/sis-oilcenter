@@ -10,6 +10,7 @@ use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\CategoriaController as Categoria;
 use App\Http\Controllers\ArticuloController as Articulo;
 use App\Http\Controllers\IngresoController as Ingreso;
+use App\Http\Controllers\VentaController as Venta;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +65,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::put('/ingreso/show/payment/{id}', [Ingreso::class, 'payment'])->name('ingreso.show.payment');
     Route::get('/ingreso/cancel/{id}', [Ingreso::class, 'cancel'])->name('ingreso.cancel');
 
+    Route::get('/venta', [Venta::class, 'index'])->name('venta.index');
+    Route::get('venta/create', [Venta::class, 'create'])->name('venta.create');
+    Route::post('/venta', [Venta::class, 'store'])->name('venta.store');
+    Route::get('venta/show/{id}', [Venta::class, 'show'])->name('venta.show');
+    Route::get('venta/edit/{id}', [Venta::class, 'edit'])->name('venta.edit');
+    Route::put('/venta/{id}', [Venta::class, 'update'])->name('venta.update');
+    Route::put('/venta/show/payment/{id}', [Venta::class, 'payment'])->name('venta.show.payment');
+    Route::get('/venta/cancel/{id}', [Venta::class, 'cancel'])->name('venta.cancel');
 
 
 });

@@ -40,7 +40,11 @@
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Ingreso"></span>Ingreso
                 </a>
             </li>
-
+            <li class=" nav-item {{ $activePage == 'venta' ? ' active' : '' }} ">
+                <a class="d-flex align-items-center" href="{{ route('venta.index') }}">
+                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Venta"></span>Venta
+                </a>
+            </li>
         </ul>
     </div>
 </div>
