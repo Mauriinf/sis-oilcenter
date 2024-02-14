@@ -67,7 +67,7 @@ class VentaController extends Controller
   }
   public function show($id){
 
-    $venta = Venta::with('cliente', 'vendedor', 'detalle_venta', 'detalle_venta.articulo')->findOrFail($id);
+    $venta = Venta::with('cliente', 'vendedorV', 'detalle_venta', 'detalle_venta.articulo')->findOrFail($id);
 
     if ($venta) {
       return view('venta.show', ['venta' => $venta]);
