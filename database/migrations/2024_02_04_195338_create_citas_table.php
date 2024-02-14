@@ -20,6 +20,7 @@ class CreateCitasTable extends Migration
             $table->dateTime('fecha_hora');
             $table->decimal('km',6,2);
             $table->string('descripcion');
+            $table->string('estado', 10);
             $table->timestamps();
         });
     }

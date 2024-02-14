@@ -57,5 +57,11 @@ class User extends Authenticatable
     public function almacenero(){
         return $this->hasOne(Ingreso::class, 'id_almacenero', 'id');
     }
+    public function cliente(){
+        return $this->hasOne(Servicio::class, 'id_cliente', 'id');
+    }
+    public function mecanico(){
+        return $this->hasOne(Servicio::class, 'id_usuario', 'id');
+    }
 
 }

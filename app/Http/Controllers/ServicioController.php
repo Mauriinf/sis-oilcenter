@@ -4,7 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Servicio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use App\Models\User;
+use App\Models\TipoServicio;
+use App\Models\Cita;
+use App\Models\DetalleServicio;
+use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\DetalleServicioControllerController;
+use App\Http\Controllers\CitaController;
+use App\Http\Requests\DetalleServicioFormRequest;
+use App\Http\Requests\ServicioFormRequest;
 class ServicioController extends Controller
 {
     /**
@@ -14,7 +24,15 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        //
+        $servicios = Servicio::all();
+
+        if (!empty($servicios)) {
+
+        return view('servicios.index', compact('servicios'));
+
+        } else {
+        return view('servicios')->withErrors('No se pudo obtener el registro, vuelva a intentarlo.');
+        }
     }
 
     /**
@@ -24,7 +42,10 @@ class ServicioController extends Controller
      */
     public function create()
     {
-        //
+        $clientes = User::with('cliente', 'proveedor')->get();//proveedor puede ser un cliente mas
+        $tipos = TipoServicio::where('estado', 'ACTIVO')->get();
+
+        return view("servicios.form",["clientes" => $clientes, 'tiposervicio' => $tipos]);
     }
 
     /**
@@ -33,9 +54,42 @@ class ServicioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ServicioFormRequest $request)
     {
-        //
+
+        $servicio = new Servicio;
+        $servicio->id_cliente = $request->cliente;
+        $servicio->id_usuario = Auth::id();
+        $servicio->fecha_hora = date('Y-m-d H:i:s');
+        $servicio->precio = $request->precio;
+        $servicio->descripcion = $request->descripcion;
+        $servicio->save();
+
+
+        //Crear detalles del servicio
+        if (!empty($request->tipos)) {
+            foreach ($request->tipos as $tipo_servicio_id) {
+                // Crear detalles del servicio
+                $detalle = new DetalleServicio;
+                $detalle->id_servicio = $servicio->id;
+                $detalle->id_tipo_servicio = $tipo_servicio_id;
+                $detalle->save();
+            }
+        }
+
+        // Agendar la cita
+        $cita = new Cita;
+        $cita->id_servicio = $servicio->id;
+        $cita->fecha_hora = $request->fecha;
+        $cita->km = $request->km;
+        $cita->descripcion = $request->descripcion_prox;
+        $cita->estado = 'PENDIENTE';
+        $cita->save();
+          if ($servicio->save()) {
+            return Redirect::to('servicios')->with('success', 'El registro ha sido guardado correctamente.');
+          }else{
+            return view('/servicio')->withErrors('No se pudo guardar el servicio, vuelva a intentarlo.');
+          }
     }
 
     /**
@@ -44,9 +98,12 @@ class ServicioController extends Controller
      * @param  \App\Models\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
-    public function show(Servicio $servicio)
+    public function show($id)
     {
-        //
+        $servicio = Servicio::with('cliente', 'mecanico', 'detalleServicios', 'detalleServicios.tipoServicio')->findOrFail($id);
+        if ($servicio) {
+        return view('servicios.show', ['servicio' => $servicio]);
+        }
     }
 
     /**

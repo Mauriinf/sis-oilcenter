@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DetalleServicio;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\DetalleServicioFormRequest;
 class DetalleServicioController extends Controller
 {
     /**
@@ -33,9 +33,27 @@ class DetalleServicioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DetalleServicioFormRequest $request, $id_servicio)
     {
-        //
+        $datosFilas = $request->input('tipos');
+
+        foreach ($datosFilas as $data) {
+            $servicio = DetalleServicio::create([
+                'id_servicio' => $id_servicio,
+                'id_tipo_servicio' => $data
+            ]);
+        }
+
+        if (!$servicio) {
+        return response()->json([
+            'status' => 'Ocurrio un error!',
+            'message' => 'No se pudo guardar el detalle del servicio',
+        ],400);
+        }else{
+        return response()->json([
+            'status' => 'Ok'
+        ],201);
+        }
     }
 
     /**

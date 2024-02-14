@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoriaController as Categoria;
 use App\Http\Controllers\ArticuloController as Articulo;
 use App\Http\Controllers\IngresoController as Ingreso;
 use App\Http\Controllers\TipoServicioController as Tipos;
+use App\Http\Controllers\ServicioController as Servicios;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,10 +66,16 @@ Route::group(['middleware' => ['auth']], function() {
     Route::put('/ingreso/show/payment/{id}', [Ingreso::class, 'payment'])->name('ingreso.show.payment');
     Route::get('/ingreso/cancel/{id}', [Ingreso::class, 'cancel'])->name('ingreso.cancel');
 
-    //Categorias
+    //Tipos servicio
 
     Route::get('tipos/servicios', [Tipos::class,'index'])->name('tiposervicio.index');
     Route::get('lista/tipos/servicios', [Tipos::class,'lista_tipos'])->name('lista.tiposervicio');
     Route::post('/guardar/tipo/servicio', [Tipos::class, 'store'])->name('tiposervicio.save');
     Route::post('/editar/tipo/servicio', [Tipos::class, 'update'])->name('tiposervicio.edit');
+    //Servicios
+    Route::get('servicios', [Servicios::class,'index'])->name('servicios.index');
+    Route::get('servicio/create', [Servicios::class, 'create'])->name('servicio.create');
+    Route::post('/servicio', [Servicios::class, 'store'])->name('servicio.store');
+    Route::get('servicio/show/{id}', [Servicios::class, 'show'])->name('servicio.show');
+    Route::get('/servicio/cancel/{id}', [Servicios::class, 'cancel'])->name('servicio.cancel');
 });

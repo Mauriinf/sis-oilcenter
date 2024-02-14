@@ -14,6 +14,7 @@ class CreateDetalleServicioTable extends Migration
     public function up()
     {
         Schema::create('detalle_servicio', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->unsignedBigInteger('id_servicio');
             $table->foreign('id_servicio')->references('id')->on('servicios');
             $table->unsignedBigInteger('id_tipo_servicio');
