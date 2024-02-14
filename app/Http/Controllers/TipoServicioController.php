@@ -16,7 +16,8 @@ class TipoServicioController extends Controller
     public function index()
     {
         $tipos=TipoServicio::all();
-        return view('configuraciones.index',compact('tipos'));
+        $categoria = TipoServicio::all();
+        return view('configuraciones.index',compact('tipos', 'categoria'));
     }
     public function lista_tipos(){
         $tipos=TipoServicio::all();

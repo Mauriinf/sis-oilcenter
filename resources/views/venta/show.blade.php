@@ -34,7 +34,7 @@
                       </div>
                       <div class="apply-job-package bg-light-primary rounded p-1">
                         <strong>Vendedor</strong>
-                        <p class="m-0">{{$venta->vendedor->nombres.' '.$venta->vendedor->paterno.' '.$venta->vendedor->materno}}</p>                        
+                        <p class="m-0">{{$venta->vendedorV->nombres.' '.$venta->vendedorV->paterno.' '.$venta->vendedorV->materno}}</p>                        
                       </div>
                     </div>
                     <div class="col-sm-3">
