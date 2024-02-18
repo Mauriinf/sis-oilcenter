@@ -21,7 +21,8 @@ class CreateServiciosTable extends Migration
             $table->foreign('id_usuario')->references('id')->on('users');//vendedor
             $table->dateTime('fecha_hora');
             $table->decimal('precio',6,2);
-            $table->string('descripcion');
+            $table->decimal('km_actual',6,2);
+            $table->string('descripcion')->nullable();
             $table->timestamps();
         });
     }

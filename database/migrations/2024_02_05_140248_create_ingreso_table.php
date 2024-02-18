@@ -19,7 +19,7 @@ class CreateIngresoTable extends Migration
             $table->foreign('id_proveedor')->references('id')->on('users');// proveedor
             $table->unsignedBigInteger('id_almacenero');
             $table->foreign('id_almacenero')->references('id')->on('users');// almacenero
-            $table->string('nombre_proveedor', 25);
+            $table->string('nombre_proveedor', 25)->nullable();
             $table->unsignedInteger('monto_total');
             $table->datetime('fecha_hora');
             $table->string('estado', 10);

@@ -90,4 +90,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/servicio', [Servicios::class, 'store'])->name('servicio.store');
     Route::get('servicio/show/{id}', [Servicios::class, 'show'])->name('servicio.show');
     Route::get('/servicio/cancel/{id}', [Servicios::class, 'cancel'])->name('servicio.cancel');
+    Route::delete('/servicio/{id}', [Servicios::class,'destroy']);
 });

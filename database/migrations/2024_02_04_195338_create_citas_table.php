@@ -19,7 +19,7 @@ class CreateCitasTable extends Migration
             $table->foreign('id_servicio')->references('id')->on('servicios');
             $table->dateTime('fecha_hora');
             $table->decimal('km',6,2);
-            $table->string('descripcion');
+            $table->string('descripcion')->nullable();
             $table->string('estado', 10);
             $table->timestamps();
         });

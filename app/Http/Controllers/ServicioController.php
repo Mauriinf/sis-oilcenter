@@ -62,6 +62,7 @@ class ServicioController extends Controller
         $servicio->id_usuario = Auth::id();
         $servicio->fecha_hora = date('Y-m-d H:i:s');
         $servicio->precio = $request->precio;
+        $servicio->km_actual = $request->km_actual;
         $servicio->descripcion = $request->descripcion;
         $servicio->save();
 
@@ -135,8 +136,18 @@ class ServicioController extends Controller
      * @param  \App\Models\Servicio  $servicio
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Servicio $servicio)
+    public function destroy($id)
     {
-        //
+
+        $servicio = Servicio::with('detalleServicios', 'citas')->findOrFail($id);
+        foreach ($servicio->detalleServicios as $detalle) {//eliminar todos los detalles
+            $detalle->delete();
+        }
+        if ($servicio->citas) {//eliminar citas
+            $servicio->citas->delete();
+        }
+        $servicio->delete();
+        return response()->json(['success' => 'El servicio y sus detalles asociados han sido eliminados correctamente.']);
+        //return Redirect::to('servicios')->with('success', 'El servicio y sus detalles asociados han sido eliminados correctamente.');
     }
 }

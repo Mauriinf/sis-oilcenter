@@ -27,6 +27,10 @@
                 <div class="alert alert-success p-2">
                   {{ session('success') }}
                 </div>
+              @elseif(request()->has('success'))
+                <div class="alert alert-success p-2">
+                    {{ request()->get('success') }}
+                </div>
               @endif
               <div class="card">
                 <div class="card-header">
@@ -46,12 +50,13 @@
                       <thead class="thead" align="center">
                         <tr>
                           <th>#</th>
+                          <th>Fecha</th>
                           <th>Cliente</th>
                             <th>Vendedor</th>
-                            <th>Fecha y Hora</th>
                             <th>Precio</th>
+                            <th>Km Actual</th>
                             <th>Descripción</th>
-                            <th>Estado</th>
+                            <th>Cita</th>
                           <th><i data-feather='life-buoy'></i></th>
                         </tr>
                       </thead>
@@ -59,26 +64,27 @@
                         @foreach ($servicios as $item)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
+                          <td>{{ $item->fecha_hora }}</td>
                           <td>{{ $item->cliente->nombres }}</td>
                           <td>{{ $item->mecanico->nombres }}</td>
-                          <td>{{ $item->fecha_hora }}</td>
                           <td>{{ $item->precio }}</td>
+                          <td>{{ $item->km_actual }}</td>
                           <td>{{ $item->descripcion }}</td>
-                          @if($item->estado == 'ACTIVO')
-                          <td><span class="badge badge-light-success w-100">ACTIVO</span></td>
+                          @if($item->citas->estado =='PENDIENTE')
+                          <td><span class="badge badge-light-warning w-100">PENDIENTE</span></td>
                           @else
-                          <td><span class="badge badge-light-danger w-100">ANULADO</span></td>
+                          <td><span class="badge badge-light-success w-100">ATENDIDO</span></td>
                           @endif
                           <td>
                             <div>
                               <a class="btn btn-sm btn-info" data-toggle="tooltip" title="Mostrar" href="{{ route('servicio.show',$item->id) }}">
                                 <i data-feather='eye'></i>
                               </a>
-                              {!! Form::open(['method' => 'GET', 'route' => ['servicio.cancel', $item->id], 'style' => 'display:inline']) !!}
-                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de eliminar este registro?')">
-                                <i data-feather='trash-2'></i>
-                                </button>
-                              {!! Form::close() !!}
+                              <a href="javascript:void(0)"  class="btn btn-sm btn-danger" onclick="eliminarServicio(<?php echo $item->id; ?>)"><i data-feather='trash-2' ></i></a>
+                            <form id="delete-form" method="post" class="d-none">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                             </div>
                           </td>
                         </tr>
@@ -124,6 +130,7 @@
     <script src="{!! asset('app-assets/vendors/js/extensions/polyfill.min.js') !!}"></script>
     <script src="{!! asset('app-assets/js/scripts/extensions/ext-component-sweet-alerts.js') !!}"></script>
     <!-- END: Page JS-->
+    <script src="{!! asset('app-assets/js/funtions.js') !!}"></script>
 @endpush
 @push('scripts-page')
 <script>
