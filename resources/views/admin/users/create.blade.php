@@ -88,13 +88,13 @@
                                 <div class="col-xl-6 col-md-6 col-12">
                                     <div class="mb-1">
                                         <strong>Roles:</strong>
-                                        <select class="select2 form-control" name="roles[]" id="roles" multiple="multiple" aria-placeholder="Seleccione Rol de Usuario" onchange="getValue(this);">
+                                        <select class="select2 form-control" name="roles[]" id="roles" multiple aria-placeholder="Seleccione Rol de Usuario" >
                                             @if ($roles)
-                                            @role('Doctor')
-                                                <option value="Paciente">Paciente</option>
+                                            @role('Mecanico')
+                                                <option value="Cliente">Cliente</option>
                                             @else
-                                                @role('Asistente')
-                                                    <option value="Paciente">Paciente</option>
+                                                @role('Vendedor')
+                                                    <option value="Cliente">Cliente</option>
                                                 @else
                                                 @foreach($roles as $role)
                                                         <option value="{{ $role }}">{{ $role }}</option>
@@ -104,6 +104,30 @@
                                             @endif
                                         </select>
 
+                                    </div>
+                                </div>
+                                <!-- Campos adicionales para el rol de cliente -->
+                                <div id="campos_cliente" style="display: none;" class="row">
+                                    <div class="col-xl-6 col-md-6 col-12">
+                                        <div  class="mb-1">
+                                            <strong>Placa del auto</strong>
+                                            {!! Form::text('placa_auto', null, array('placeholder' => 'Placa auto','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-12">
+                                        <div class="mb-1">
+                                            <strong>Modelo del auto</strong>
+                                            {!! Form::text('modelo_auto', null, array('placeholder' => 'Modelo auto','class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Campos adicionales para el rol de proveedor -->
+                                <div id="campos_proveedor" style="display: none;" class="row">
+                                    <div class="col-xl-6 col-md-6 col-12">
+                                        <div  class="mb-1">
+                                            <strong>Nombre del proveedor</strong>
+                                            {!! Form::text('nombre_proveedor', null, array('placeholder' => 'Nombre proveedor','class' => 'form-control')) !!}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 col-md-6 col-12">
@@ -166,11 +190,35 @@
     <!-- BEGIN: Page JS-->
     <script src="{!! asset('app-assets/js/scripts/forms/form-select2.js') !!}"></script>
     <!-- END: Page JS-->
+    <script>
+window.onload = function() {
+    $('#roles').on('select2:select', function (e) {
+        var selectedOptions = $(this).val();
 
+        if (selectedOptions.includes('Cliente')) {
+            $('#campos_cliente').show();
+        } else {
+            $('#campos_cliente').hide();
+        }
 
-@endpush
-@push('scripts-vendor')
-<script>
+        if (selectedOptions.includes('Proveedor')) {
+            $('#campos_proveedor').show();
+        } else {
+            $('#campos_proveedor').hide();
+        }
+    });
 
-</script>
+    $('#roles').on('select2:unselect', function (e) {
+        var selectedOptions = $(this).val();
+
+        if (!selectedOptions.includes('Cliente')) {
+            $('#campos_cliente').hide();
+        }
+
+        if (!selectedOptions.includes('Proveedor')) {
+            $('#campos_proveedor').hide();
+        }
+    });
+};
+    </script>
 @endpush

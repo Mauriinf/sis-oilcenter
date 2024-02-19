@@ -64,6 +64,19 @@ class UserController extends Controller
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
+        //guardar datos si es cliente o proveedor
+        foreach($request->input('roles') as $rol){
+            switch ($rol) {
+                case 'Cliente':
+                    $user->placa_auto = $request->placa_auto;
+                    $user->modelo_auto = $request->modelo_auto;
+                    break;
+                case 'Proveedor':
+                    $user->nombre_proveedor = $request->nombre_proveedor;
+                    break;
+            }
+            $user->save();
+        }
 
         return redirect()->route('users.index')
                         ->with('success','Usuario creado con éxito');
