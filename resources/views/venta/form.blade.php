@@ -13,7 +13,7 @@
             </div>
             <div class="card-body">
               <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-4">
                   <div class="row">
                     <div class="col-md-7 mb-3">
                       <div class="form-group">
@@ -29,7 +29,7 @@
                         @error('cliente') <span class="text-danger">* {{ $message }}</span> @enderror
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-9">
                       <div class="form-group">
                         <label>Articulo:</label>
                         <select class="form-select @if($errors->has('articulo')) border border-danger @endif" name="articulo" id="articulo">
@@ -50,13 +50,6 @@
                         @error('cantidad') <span class="text-danger">* {{ $message }}</span> @enderror
                       </div>
                     </div>
-                    <div class="col-md-3 mb-2">
-                      <div class="form-group">
-                        <label>P. Venta:</label>
-                        <input type="text" name="precio_venta" id="precio_venta" class="form-control @if($errors->has('precio_venta')) border border-danger @endif" placeholder="...">
-                        @error('precio_venta') <span class="text-danger">* {{ $message }}</span> @enderror
-                      </div>
-                    </div>
                   </div>
                   <div>
                     <button type="button" id="bt_add" class="btn btn-success w-100">
@@ -65,7 +58,7 @@
                     </button>
                   </div>
                 </div>
-                <div class="col-md-7 d-flex flex-column">
+                <div class="col-md-8 d-flex flex-column">
                   <input type="hidden" name="datosFilas" id="datosFilas">
                   <div class="p-1 bg-light-secondary border-bottom-dark">
                     <b><p class="m-0">Cliente: <span id="cli"></span></p></b>

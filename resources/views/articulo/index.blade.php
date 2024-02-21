@@ -65,7 +65,7 @@
                           <td>{{ $art->nombre }}</td>
                           <td>{{ $art->stock }}</td>
                           <td>{{ $art->descripcion }}</td>
-                          <td><img src="{{ asset('imagenes/articulo/'.$art->imagen) }}" alt="100" width="50"></td>
+                          <td align="center"><img src="{{ asset('imagenes/articulo/'.$art->imagen) }}" width="50"></td>
                           @if($art->estado == 1)
                           <td><span class="badge badge-light-success w-100">ACTIVO</span></td>
                           @else
