@@ -28,17 +28,22 @@
                 <div class="card-body py-0 pt-1">
                   <div class="row">
                     <div class="col-sm-4">
-                      <div class="apply-job-package bg-light-primary rounded p-1 mb-1">
-                        <strong>Cliente</strong>
-                        <p class="m-0">{{$servicio->cliente->nombres.' '.$servicio->cliente->paterno.' '.$servicio->cliente->materno}}</p>
-                      </div>
+
                       <div class="apply-job-package bg-light-primary rounded p-1 mb-1">
                         <strong>Trabajador</strong>
                         <p class="m-0">{{$servicio->mecanico->nombres.' '.$servicio->mecanico->paterno.' '.$servicio->mecanico->materno}}</p>
                       </div>
                       <div class="apply-job-package bg-light-primary rounded p-1 mb-1">
+                        <strong>Fecha Realizada</strong>
+                        <p class="m-0">{{$servicio->fecha_hora}}</p>
+                      </div>
+                      <div class="apply-job-package bg-light-primary rounded p-1 mb-1">
                         <strong>Precio</strong>
                         <p class="m-0">{{$servicio->precio}} Bs.</p>
+                      </div>
+                      <div class="apply-job-package bg-light-primary rounded p-1 mb-1">
+                        <strong>Kilometraje Actual</strong>
+                        <p class="m-0">{{$servicio->km_actual}} </p>
                       </div>
                       <div class="apply-job-package bg-light-primary rounded p-1">
                         <strong>Descripción</strong>
@@ -47,11 +52,15 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="apply-job-package bg-light-primary rounded p-1 mb-1">
-                            <strong>Fecha  Hora</strong>
+                            <strong>Cliente</strong>
+                            <p class="m-0">{{$servicio->cliente->nombres.' '.$servicio->cliente->paterno.' '.$servicio->cliente->materno}}</p>
+                        </div>
+                        <div class="apply-job-package bg-light-primary rounded p-1 mb-1">
+                            <strong>Proxima Fecha  Hora</strong>
                             <p class="m-0">{{$servicio->citas->fecha_hora}}</p>
                           </div>
                           <div class="apply-job-package bg-light-primary rounded p-1 mb-1">
-                            <strong>Kilometraje</strong>
+                            <strong>Proximo Kilometraje</strong>
                             <p class="m-0">{{$servicio->citas->km}} </p>
                           </div>
                           <div class="apply-job-package bg-light-primary rounded p-1 mb-1">

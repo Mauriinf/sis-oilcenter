@@ -125,3 +125,48 @@ function printErrorMsg (msg,accion) {
     });
 
 });
+function eliminarServicio(id)
+{
+	var cadena = new FormData($("#delete-form")[0]);
+
+ eliminardata(cadena,'/servicio/'+id);
+}
+//Función para eliminar registros
+function eliminardata(cadena,urls)
+{
+
+    Swal.fire({
+
+              title: "¿Eliminar?",
+              text: "¿Está Seguro de eliminar?",
+              type: "warning",
+              showCancelButton: true,
+              cancelButtonText: "No",
+              confirmButtonText: "Si",
+              closeOnConfirm: false,
+              closeOnCancel: false,
+              showLoaderOnConfirm: true
+              }).then(function(result){
+               if(result.value){
+
+                $.ajax({
+                    url:urls,
+                    type: "POST",
+                    data: cadena,
+                    contentType: false,
+                    processData: false,
+
+                    success: function(response)
+                    {
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: response.success,
+                            type: 'success'
+                        });
+                    location.reload();
+                    }
+                     });
+
+              }
+            });
+}

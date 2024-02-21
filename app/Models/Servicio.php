@@ -13,6 +13,7 @@ class Servicio extends Model
         'id_cliente',
         'id_usuario',
         'fecha_hora',
+        'km_actual',
         'precio',
         'descripcion'
     ];

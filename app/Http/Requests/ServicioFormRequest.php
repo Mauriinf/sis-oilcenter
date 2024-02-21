@@ -27,11 +27,9 @@ class ServicioFormRequest extends FormRequest
             'cliente'=>'required',
             'tipos'=>'required',
             'precio'=>'required',
-            'descripcion'=>'required',
             'km'=>'required',
             'fecha'=>'required',
-            'descripcion_prox'=>'required'
-
+            'km_actual'=>'required'
         ];
     }
 }

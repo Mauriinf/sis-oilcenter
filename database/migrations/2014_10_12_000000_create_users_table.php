@@ -26,6 +26,12 @@ class CreateUsersTable extends Migration
             $table->date('fec_nac')->nullable();
             $table->boolean('estado');
             $table->char('sexo',1);
+            // Campos adicionales para el rol de cliente
+            $table->string('placa_auto')->nullable();
+            $table->string('modelo_auto')->nullable();
+            // Campos adicionales para el rol de proveedor
+            $table->string('nombre_proveedor')->nullable();
+
             $table->timestamp('email_verified_at')->nullable();
             $table->string('avatar')->nullable();
             $table->string('password');

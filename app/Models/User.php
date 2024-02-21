@@ -29,7 +29,10 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'sexo'
+        'sexo',
+        'placa_auto',
+        'modelo_auto',
+        'nombre_proveedor'
     ];
 
     /**

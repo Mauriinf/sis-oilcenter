@@ -42,14 +42,21 @@
                         @error('tipos') <span class="text-danger">* {{ $message }}</span> @enderror
                       </div>
                     </div>
-                    <div class="col-md-5 mb-3">
+                    <div class="col-md-4 mb-3">
                       <div class="form-group">
                         <label>Precio:</label>
                         <input type="text" name="precio" id="precio" class="form-control @if($errors->has('precio')) border border-danger @endif" placeholder="0.0" value="{{ old('precio') }}">
                         @error('precio') <span class="text-danger">* {{ $message }}</span> @enderror
                       </div>
                     </div>
-                    <div class="col-md-7 mb-3">
+                    <div class="col-md-4 mb-2">
+                        <div class="form-group">
+                          <label>Kilometraje Actual:</label>
+                          <input type="number" name="km_actual" id="km_actual" class="form-control @if($errors->has('km_actual')) border border-danger @endif" value="{{ old('km_actual') }}" >
+                          @error('km_actual') <span class="text-danger">* {{ $message }}</span> @enderror
+                        </div>
+                      </div>
+                    <div class="col-md-4 mb-3">
                       <div class="form-group">
                         <label>Descripción:</label>
                         <textarea name="descripcion" id="descripcion" class="form-control">{{ old('descripcion') }}</textarea>
@@ -63,10 +70,16 @@
                         @error('fecha') <span class="text-danger">* {{ $message }}</span> @enderror
                       </div>
                     </div>
-                    <div class="col-md-4 mb-2">
+                    <div class="col-md-2 mb-2">
+                        <div class="form-group">
+                          <label>Adicionar kilometraje:</label>
+                          <input type="number" name="adicionar" id="adicionar" class="form-control " value="{{ old('adicionar') }}" placeholder="1">
+                        </div>
+                      </div>
+                    <div class="col-md-2 mb-2">
                       <div class="form-group">
-                        <label>Kilometraje:</label>
-                        <input type="text" name="km" id="km" class="form-control @if($errors->has('km')) border border-danger @endif" value="{{ old('km') }}" >
+                        <label>Proximo kilometraje:</label>
+                        <input type="number" name="km" id="km" class="form-control @if($errors->has('km')) border border-danger @endif" value="0" value="{{ old('km') }}" >
                         @error('km') <span class="text-danger">* {{ $message }}</span> @enderror
                       </div>
                     </div>
@@ -112,6 +125,15 @@
 <script src="{!! asset('app-assets/js/scripts/forms/form-select2.js') !!}"></script>
 <!-- END: Page JS-->
 
+<script>
+$('#adicionar').on('input', calcularKilometraje);
 
+function calcularKilometraje() {
+  var km_actual = parseFloat($('#km_actual').val()) || 0;
+  var adicionar = parseFloat($('#adicionar').val()) || 0;
+  var suma = km_actual+adicionar;
+  $('#km').val(suma);
+}
+</script>
 @endpush
 
