@@ -15,7 +15,7 @@ use App\Http\Controllers\VentaController as Venta;
 
 use App\Http\Controllers\TipoServicioController as Tipos;
 use App\Http\Controllers\ServicioController as Servicios;
-
+use App\Http\Controllers\PublicacionController as Publicacion;
 
 /*
 |--------------------------------------------------------------------------
@@ -91,4 +91,13 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('servicio/show/{id}', [Servicios::class, 'show'])->name('servicio.show');
     Route::get('/servicio/cancel/{id}', [Servicios::class, 'cancel'])->name('servicio.cancel');
     Route::delete('/servicio/{id}', [Servicios::class,'destroy']);
+
+    //Publicaciones
+    Route::get('/publicacion', [Publicacion::class, 'index'])->name('publicacion.index');
+    Route::get('publicacion/create', [Publicacion::class, 'create'])->name('publicacion.create');
+    Route::post('/publicacion', [Publicacion::class, 'store'])->name('publicacion.store');
+    Route::get('publicacion/edit/{id}', [Publicacion::class, 'edit'])->name('publicacion.edit');
+    Route::put('/publicacion/{id}', [Publicacion::class, 'update'])->name('publicacion.update');
+    Route::get('/publicacion/disable/{id}', [Publicacion::class, 'disable'])->name('publicacion.disable');
+    Route::get('/publicacion/enable/{id}', [Publicacion::class, 'enable'])->name('publicacion.enable');
 });

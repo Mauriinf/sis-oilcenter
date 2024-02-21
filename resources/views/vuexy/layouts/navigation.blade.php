@@ -50,6 +50,11 @@
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Servicios"></span>Servicios
                 </a>
             </li>
+            <li class=" nav-item {{ $activePage == 'publicacion' ? ' active' : '' }} ">
+                <a class="d-flex align-items-center" href="{{ route('publicacion.index') }}">
+                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Publicacion"></span>Publicaciones
+                </a>
+            </li>
             <li class=" nav-item {{ $activePage == 'configuraciones' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('tiposervicio.index') }}">
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Configuraciones"></span>Configuraciones
