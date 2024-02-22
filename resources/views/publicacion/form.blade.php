@@ -44,6 +44,7 @@
                         </div>
                       </div>
                     </div>
+                    @error('avatar') <span class="text-danger">* {{ $message }}</span> @enderror
                 </div>
               </div>
             </div>

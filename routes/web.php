@@ -17,6 +17,7 @@ use App\Http\Controllers\TipoServicioController as Tipos;
 use App\Http\Controllers\ServicioController as Servicios;
 use App\Http\Controllers\PublicacionController as Publicacion;
 
+use App\Models\publicacion as TrabajosRealizados;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,7 +30,8 @@ use App\Http\Controllers\PublicacionController as Publicacion;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $publicaciones = TrabajosRealizados::where('estado', '=', 'Activo')->get();
+    return view('welcome', compact('publicaciones'));
 });
 
 Auth::routes();
@@ -100,6 +102,5 @@ Route::group(['middleware' => ['auth']], function() {
     Route::post('/publicacion', [Publicacion::class, 'store'])->name('publicacion.store');
     Route::get('publicacion/edit/{id}', [Publicacion::class, 'edit'])->name('publicacion.edit');
     Route::put('/publicacion/{id}', [Publicacion::class, 'update'])->name('publicacion.update');
-    Route::get('/publicacion/disable/{id}', [Publicacion::class, 'disable'])->name('publicacion.disable');
-    Route::get('/publicacion/enable/{id}', [Publicacion::class, 'enable'])->name('publicacion.enable');
+    Route::delete('/publicacion/{id}', [Publicacion::class, 'destroy'])->name('publicacion.destroy');
 });

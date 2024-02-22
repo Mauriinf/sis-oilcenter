@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\publicacion;
 use App\Http\Controllers\Controller;
 class HomeController extends Controller
 {
@@ -25,6 +26,11 @@ class HomeController extends Controller
         $users = User::all();
 
         return view('home', compact('users'));
+    }
+    public function inicio(){
+        $publicaciones = publicacion::where('estado', '=', 'Activo')->get();
+
+        return view('welcome', compact('publicaciones'));
     }
     public function  calendario(){
         return view('calendario');

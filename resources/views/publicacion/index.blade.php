@@ -9,6 +9,13 @@
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/tables/datatable/rowGroup.bootstrap5.min.css') !!}">
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css') !!}">
     <!-- END: Vendor CSS-->
+    <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/animate/animate.min.css') !!}">
+    <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/extensions/sweetalert2.min.css') !!}">
+    <!-- END: Vendor CSS-->
+      <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/css/plugins/extensions/ext-component-sweet-alerts.css') !!}">
+    <!-- END: Page CSS-->
 @endpush
 @section('content')
 <div class="content-wrapper p-0">
@@ -62,18 +69,11 @@
                               <a class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" href="{{ route('publicacion.edit',$pub->id) }}">
                                 <i data-feather='edit'></i>
                               </a>
-                              @if ($pub->estado == 'Activo')
-                                {!! Form::open(['method' => 'GET', 'route' => ['publicacion.disable', $pub->id], 'style' => 'display:inline']) !!}
-                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de inhabilitar este registro?')">
-                                  <i data-feather='trash-2'></i>
-                                </button>
-                              @else
-                                {!! Form::open(['method' => 'GET', 'route' => ['publicacion.enable', $pub->id], 'style' => 'display:inline']) !!}
-                                <button type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de habilitar este registro?')">
-                                  <i data-feather='trash-2'></i>
-                                </button>
-                              @endif
-                              {!! Form::close() !!}
+                              <a href="javascript:void(0)"  class="btn btn-sm btn-danger" onclick="eliminarPublicacion(<?php echo $pub->id; ?>)"><i data-feather='trash-2' ></i></a>
+                              <form id="delete-form" method="post" class="d-none">
+                                  @csrf
+                                  @method('DELETE')
+                              </form>
                             </div>
                           </td>
                         </tr>
@@ -108,6 +108,12 @@
     <script src="{!! asset('app-assets/vendors/js/tables/datatable/dataTables.select.min.js') !!}"></script>
     <script src="{!! asset('app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js') !!}"></script>
     <!-- END: Page Vendor JS-->
+       <!-- BEGIN: Page JS-->
+       <script src="{!! asset('app-assets/vendors/js/extensions/sweetalert2.all.min.js') !!}"></script>
+       <script src="{!! asset('app-assets/vendors/js/extensions/polyfill.min.js') !!}"></script>
+       <script src="{!! asset('app-assets/js/scripts/extensions/ext-component-sweet-alerts.js') !!}"></script>
+       <!-- END: Page JS-->
+    <script src="{!! asset('app-assets/js/funtions.js') !!}"></script>
 @endpush
 @push('scripts-page')
 <script>

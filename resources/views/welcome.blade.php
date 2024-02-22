@@ -50,7 +50,12 @@
   <!--
     - #HEADER
   -->
-
+<style>
+  .has-scrollbar {
+    overflow-y: auto; /* Esto habilitará el scrollbar vertical cuando sea necesario */
+    max-height: 500px; /* Establece una altura máxima para evitar que el contenedor se haga demasiado largo */
+}
+</style>
   <header class="header">
     <div class="container">
 
@@ -341,19 +346,19 @@
           <h2 class="h2 section-title">Algunos de los trabajos realizados</h2>
 
           <ul class="has-scrollbar">
-
+            @foreach ($publicaciones as $publi)
             <li class="scrollbar-item">
               <div class="work-card">
 
                 <figure class="card-banner img-holder" style="--width: 350; --height: 406;">
-                  <img src="./landing/assets/images/work-1.jpg" width="350" height="406" loading="lazy" alt="Engine Repair"
+                  <img src="{{ asset('imagenes/publicacion/'.$publi->imagen) }}" width="350" height="406" loading="lazy" alt="Engine Repair"
                     class="img-cover">
                 </figure>
 
                 <div class="card-content">
-                  <p class="card-subtitle">Reparación Automática</p>
+                  {{-- <p class="card-subtitle">Reparación Automática</p> --}}
 
-                  <h3 class="h3 card-title">Reparación de Motores</h3>
+                  <h3 class="h3 card-title">{{ $publi->titulo }}</h3>
 
                   <a href="#" class="card-btn">
                     <span class="material-symbols-rounded">arrow_forward</span>
@@ -362,49 +367,7 @@
 
               </div>
             </li>
-
-            <li class="scrollbar-item">
-              <div class="work-card">
-
-                <figure class="card-banner img-holder" style="--width: 350; --height: 406;">
-                  <img src="./landing/assets/images/work-2.jpg" width="350" height="406" loading="lazy" alt="Car Tyre change"
-                    class="img-cover">
-                </figure>
-
-                <div class="card-content">
-                  <p class="card-subtitle">Auto Repair</p>
-
-                  <h3 class="h3 card-title">Car Tyre change</h3>
-
-                  <a href="#" class="card-btn">
-                    <span class="material-symbols-rounded">arrow_forward</span>
-                  </a>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="scrollbar-item">
-              <div class="work-card">
-
-                <figure class="card-banner img-holder" style="--width: 350; --height: 406;">
-                  <img src="./landing/assets/images/work-3.jpg" width="350" height="406" loading="lazy" alt="Battery Adjust"
-                    class="img-cover">
-                </figure>
-
-                <div class="card-content">
-                  <p class="card-subtitle">Auto Repair</p>
-
-                  <h3 class="h3 card-title">Battery Adjust</h3>
-
-                  <a href="#" class="card-btn">
-                    <span class="material-symbols-rounded">arrow_forward</span>
-                  </a>
-                </div>
-
-              </div>
-            </li>
-
+            @endforeach
           </ul>
 
         </div>

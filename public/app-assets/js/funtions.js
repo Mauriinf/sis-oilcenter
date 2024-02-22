@@ -131,6 +131,12 @@ function eliminarServicio(id)
 
  eliminardata(cadena,'/servicio/'+id);
 }
+function eliminarPublicacion(id)
+{
+	var cadena = new FormData($("#delete-form")[0]);
+
+ eliminardata(cadena,'/publicacion/'+id);
+}
 //Función para eliminar registros
 function eliminardata(cadena,urls)
 {

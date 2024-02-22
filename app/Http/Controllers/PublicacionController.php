@@ -45,26 +45,30 @@ class PublicacionController extends Controller
     public function store(Request $request)
     {
         $nombreImagen = '';
-        if ($request->hasFile('avatar')) {
-
-        $imagen = $request->file('avatar');
-        $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-        $imagen->move(public_path('imagenes/publicacion'), $nombreImagen);
-
-        }
+        
 
         $validator = Validator::make(
             $request->all(),
             [
                 'titulo'=> 'required',
                 'estado'=> 'required',
+                'avatar' => 'required|image',
             ],
             [
+                'avatar.required' => 'Por favor, selecciona una imagen.',
+                'avatar.image' => 'El archivo seleccionado no es una imagen válida.',
                 'titulo.required'=>'El campo titulo es requerido',
                 'estado.required'=>'El campo estado es requerido'
             ]
         );
         if (!$validator->fails()) {
+            if ($request->hasFile('avatar')) {
+
+                $imagen = $request->file('avatar');
+                $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+                $imagen->move(public_path('imagenes/publicacion'), $nombreImagen);
+        
+            }
             $publicacion = publicacion::create([
             'id_usuario' => Auth::id(),
             'titulo' => $request->get('titulo'),
@@ -74,7 +78,7 @@ class PublicacionController extends Controller
             ]);
             return Redirect::to('publicacion')->with('success', 'La publicacion ha sido guardado correctamente.');
         }else{
-            return view('/publicacion')->withErrors('No se pudo guardar el registro, vuelva a intentarlo.');
+            return back()->withErrors($validator)->withInput();
         }
     }
 
@@ -111,19 +115,14 @@ class PublicacionController extends Controller
     public function update(Request $request, $id)
     {
         $nombreImagen = '';
-        if ($request->hasFile('avatar')) {
-
-        $imagen = $request->file('avatar');
-        $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-        $imagen->move(public_path('imagenes/publicacion'), $nombreImagen);
-
-        }
+        
 
         $validator = Validator::make(
             $request->all(),
             [
                 'titulo'=> 'required',
                 'estado'=> 'required',
+                'avatar' => 'required|image|mimes:jpeg,png,jpg',
             ],
             [
                 'titulo.required'=>'El campo titulo es requerido',
@@ -131,6 +130,13 @@ class PublicacionController extends Controller
             ]
         );
         if (!$validator->fails()) {
+            if ($request->hasFile('avatar')) {
+
+                $imagen = $request->file('avatar');
+                $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
+                $imagen->move(public_path('imagenes/publicacion'), $nombreImagen);
+        
+            }
             $publi = publicacion::findOrFail($id)->update([
                 'id_usuario' => Auth::id(),
                 'titulo' => $request->get('titulo'),
@@ -153,6 +159,8 @@ class PublicacionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $publicacion = publicacion::find($id);
+        $publicacion->delete();
+        return response()->json(['success' => 'La publicación ha sido eliminado correctamente.']);
     }
 }
