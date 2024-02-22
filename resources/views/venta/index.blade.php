@@ -46,7 +46,7 @@
                         <tr>
                           <td>{{$loop->iteration }}</td>
                           <td>{{ $ven->cliente->paterno.' '.$ven->cliente->materno.' '.$ven->cliente->nombres }}</td>
-                          <td>{{ $ven->vendedor->paterno.' '.$ven->vendedor->materno.' '.$ven->vendedor->nombres }}</td>
+                          <td>{{ $ven->vendedorV->paterno.' '.$ven->vendedorV->materno.' '.$ven->vendedorV->nombres }}</td>
                           <td>{{ $ven->fecha_hora }}</td>
                           <td>{{ $ven->total_venta }}</td>
                           <td>{{ $ven->monto_cancelado }}</td>
