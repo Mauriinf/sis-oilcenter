@@ -87,6 +87,7 @@
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Descripción</th>
+                    <th>Estado</th>
                     <th><i data-feather='life-buoy'></i></th>
                   </tr>
                 </thead>
@@ -310,7 +311,7 @@
   var url = '';
   var type = '';
 
-  $(document).ready(function () {
+  function indexCategoria(){
     $.ajax({
       url: "{{ url('categoria') }}",
       method: 'GET',
@@ -323,10 +324,16 @@
         alert(error.message);
       }
     });
+  }
+  $(document).ready(function () {
+    indexCategoria();
   });
 
   function tableAdd() {
+
     $('#dt-Categoria').DataTable({
+      retrieve: true,
+      paging: true,
       dom: '<"dataTables_wrapper dt-bootstrap"<"row"<"col-xl-7 d-block d-sm-flex d-xl-block justify-content-center"<"d-block d-lg-inline-flex mr-0 mr-sm-3"l><"d-block d-lg-inline-flex"B>><"col-xl-5 d-flex d-xl-block justify-content-center"fr>>t<"row"<"col-sm-5"i><"col-sm-7"p>>>',
               //displayLength: 7,
               //lengthMenu: [7, 10, 25, 50, 75, 100],
@@ -336,20 +343,25 @@
       buttons: [
         ],
     });
+
   };
 
   function cargarDatos(categoria){
 
     $.each(categoria, function(index, categoria) {
 
-      var btnEditar = '<button class="btn btn-warning btn-sm btnEdit" data-id="' + categoria.id + '" data-nombre="' + categoria.nombre + '" data-descripcion="' + categoria.descripcion + '">Editar</button>';
+      var btnEditar = '<button class="btn btn-warning btn-sm btnEdit" style="margin-right:5px;" data-id="' + categoria.id + '" data-nombre="' + categoria.nombre + '" data-descripcion="' + categoria.descripcion + '">Editar</button>';
+
+      var estado = (categoria.estado == 1) ? 'Activo' : 'Inactivo';
+      var btnEstado = (categoria.estado == 1) ? '<button class="btn btn-danger btn-sm btnDisable" data-id="' + categoria.id + '">Desabilitar</button>' : '<button class="btn btn-success btn-sm btnEnable" data-id="' + categoria.id + '">Habilitar</button>';
 
       $('#dt-Categoria tbody').append(
         '<tr>' +
         '<td>' + (index + 1 )+ '</td>' +
         '<td>' + categoria.nombre + '</td>' +
         '<td>' + categoria.descripcion + '</td>'+
-        '<td>' + btnEditar + '</td>' +
+        '<td align="center">' + estado + '</td>' +
+        '<td><div class="d-flex">' + btnEditar + btnEstado +' </div></td>' +
         '</tr>'
         );
     });
@@ -425,6 +437,67 @@
     $('#nombreC').val($(this).data('nombre'));
     $('#descripcionC').val($(this).data('descripcion'));
     $('#Articulo').modal('show');
+  });
+
+  $(document).on('click', '.btnEnable', function() {
+
+    var id = $(this).data('id');
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: url = "{{ url('categoria/enable') }}/" + id,
+      type: 'PUT',
+      success: function(response){
+
+        $('#respuesta p').text(response.success);
+        $('#respuesta').show();
+
+        indexCategoria();
+
+      },
+      error: function(xhr, textStatus, errorThrown){
+
+        var errors = xhr.responseJSON;
+
+        console.log(errors.errors)
+
+      }
+
+    });
+
+  });
+
+  $(document).on('click', '.btnDisable', function() {
+
+    var id = $(this).data('id');
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: url = "{{ url('categoria/disable') }}/" + id,
+      type: 'PUT',
+      success: function(response){
+
+        $('#respuesta p').text(response.success);
+        $('#respuesta').show();
+        
+        indexCategoria();
+
+      },
+      error: function(xhr, textStatus, errorThrown){
+
+        var errors = xhr.responseJSON;
+
+        console.log(errors.errors)
+
+      }
+      
+    });
+
+
   });
 
   function limpiar(){

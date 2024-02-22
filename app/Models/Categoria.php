@@ -15,7 +15,8 @@ class Categoria extends Model
     public $timestamps=true;
     Protected $fillable = [
         'nombre',
-        'descripcion'
+        'descripcion',
+        'estado'
     ];
 
     public function articulo(){

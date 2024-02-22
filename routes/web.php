@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('/categoria', [Categoria::class, 'index'])->name('categoria.index');
     Route::post('/categoria', [Categoria::class, 'store'])->name('categoria.store');
     Route::put('/categoria/{id}', [Categoria::class, 'update'])->name('categoria.update');
+    Route::put('/categoria/enable/{id}', [Categoria::class, 'enable'])->name('categoria.enable');
+    Route::put('/categoria/disable/{id}', [Categoria::class, 'disable'])->name('categoria.disable');
 
     Route::get('/articulo', [Articulo::class, 'index'])->name('articulo.index');
     Route::get('articulo/create', [Articulo::class, 'create'])->name('articulo.create');

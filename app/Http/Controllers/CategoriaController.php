@@ -28,7 +28,8 @@ class CategoriaController extends Controller
 
     $categoria = Categoria::create([
       'nombre' => $request->get('nombreC'),
-      'descripcion' => $request->get('descripcionC')
+      'descripcion' => $request->get('descripcionC'),
+      'estado' => 1
     ]);
 
     if (!empty($categoria)) {
@@ -39,7 +40,7 @@ class CategoriaController extends Controller
     }else{
       return response()->json([
         'status' => 'Ocurrio un error!',
-        'message' =>  'asd'
+        'message' =>  'No se completó la tarea'
 
       ],400);
     }
@@ -48,7 +49,8 @@ class CategoriaController extends Controller
 
     $categoria = Categoria::findOrFail($id)->update([
       'nombre' => $request->get('nombreC'),
-      'descripcion' => $request->get('descripcionC')
+      'descripcion' => $request->get('descripcionC'),
+      'estado' => 1
     ]);
 
     if (!empty($categoria)) {
@@ -60,6 +62,45 @@ class CategoriaController extends Controller
       return response()->json([
         'status' => 'Ocurrio un error!',
         'message' =>  'Hubo un error al modificar el registro'
+
+      ],400);
+    }
+  }
+  public function enable($id){
+    
+    $categoria = Categoria::findOrFail($id)->update([
+      'estado' => 1
+    ]);
+
+    if (!empty($categoria)) {
+      return response()->json([
+        'categoria' => Categoria::all(),
+        'success' => 'La categoria fue habilitado correctamente'
+      ],201);
+    }else{
+      return response()->json([
+        'status' => 'Ocurrio un error!',
+        'message' =>  'Hubo un error al habilitar el registro'
+
+      ],400);
+    }
+
+  }
+  public function disable($id){
+
+    $categoria = Categoria::findOrFail($id)->update([
+      'estado' => 0
+    ]);
+
+    if (!empty($categoria)) {
+      return response()->json([
+        'categoria' => Categoria::all(),
+        'success' => 'La categoria ha sido desabilitado correctamente'
+      ],201);
+    }else{
+      return response()->json([
+        'status' => 'Ocurrio un error!',
+        'message' =>  'Hubo un error al desabilitar el registro'
 
       ],400);
     }
