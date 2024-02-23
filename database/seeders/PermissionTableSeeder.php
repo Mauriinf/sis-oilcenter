@@ -21,7 +21,37 @@ class PermissionTableSeeder extends Seeder
            'lista-usuarios',
            'crear-usuarios',
            'editar-usuarios',
-           'eliminar-usuarios'
+           'eliminar-usuarios',
+           'lista-categorias',
+            'crear-categorias',
+            'editar-categorias',
+            'habilitar-inhabilitar-categorias',
+            'lista-tipos-servicios',
+            'crear-tipos-servicios',
+            'editar-tipos-servicios',
+            'lista-articulos',
+            'crear-articulos',
+            'editar-articulos',
+            'habilitar-inhabilitar-articulos',
+            'lista-ingresos',
+            'registrar-ingresos',
+            'ver-ingresos',
+            'eliminar-ingresos',
+            'cancelar-saldo-ingreso',
+            'lista-ventas',
+            'registrar-ventas',
+            'ver-detalle-ventas',
+            'eliminar-ventas',
+            'cancelar-saldo-ventas',
+            'lista-servicios',
+            'registrar-servicios',
+            'ver-detalle-servicio',
+            'eliminar-servicio',
+            'lista-publicaciones',
+            'registrar-publicaciones',
+            'editar-publicaciones',
+            'eliminar-publicaciones'
+
         ];
 
         foreach ($permissions as $permission) {

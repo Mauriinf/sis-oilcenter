@@ -67,23 +67,23 @@
         <ul class="navbar-list">
 
           <li>
-            <a href="#" class="navbar-link">Principal</a>
+            <a href="#principal" class="navbar-link">Principal</a>
           </li>
 
           <li>
-            <a href="#" class="navbar-link">Sobre Nosotros</a>
+            <a href="#sobre-nosotros" class="navbar-link">Sobre Nosotros</a>
           </li>
 
           <li>
-            <a href="#" class="navbar-link">Servicios</a>
+            <a href="#servicios" class="navbar-link">Servicios</a>
           </li>
 
           <li>
-            <a href="#" class="navbar-link">Blog</a>
+            <a href="#blog" class="navbar-link">Blog</a>
           </li>
 
           <li>
-            <a href="#" class="navbar-link">Cantacto</a>
+            <a href="#contacto" class="navbar-link">Cantacto</a>
           </li>
 
         </ul>
@@ -115,7 +115,7 @@
         - #HERO
       -->
 
-      <section class="hero has-bg-image" aria-label="home" style="background-image: url('./landing/assets/images/hero-bg.jpg')">
+      <section class="hero has-bg-image" id="principal" aria-label="home" style="background-image: url('./landing/assets/images/hero-bg.jpg')">
         <div class="container">
 
           <div class="hero-content">
@@ -151,7 +151,7 @@
         - #SERVICE
       -->
 
-      <section class="section service has-bg-image" aria-labelledby="service-label"
+      <section class="section service has-bg-image"  id="servicios" aria-labelledby="service-label"
         style="background-image: url('./landing/assets/images/service-bg.jpg')">
         <div class="container">
 
@@ -277,7 +277,7 @@
         - #ABOUT
       -->
 
-      <section class="section about has-before" aria-labelledby="about-label">
+      <section class="section about has-before"  id="sobre-nosotros" aria-labelledby="about-label">
         <div class="container">
 
           <figure class="about-banner">
@@ -338,7 +338,7 @@
         - #WORK
       -->
 
-      <section class="section work" aria-labelledby="work-label">
+      <section class="section work" id="blog" aria-labelledby="work-label">
         <div class="container">
 
           <p class="section-subtitle :light" id="work-label">Nuestro Trabajo</p>
@@ -386,7 +386,7 @@
 
   <footer class="footer">
 
-    <div class="footer-top section">
+    <div class="footer-top section" id="contacto">
       <div class="container">
 
         <div class="footer-brand">
