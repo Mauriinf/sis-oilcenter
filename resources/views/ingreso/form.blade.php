@@ -1,5 +1,5 @@
 @extends('vuexy.layouts.default', ['activePage' => 'ingreso'])
-@section('title','Nuevo Usuario')
+@section('title','Nuevo Ingreso')
 @section('content')
 <div class="content-wrapper container-xxl p-0">
   <div class="content-body">
@@ -24,7 +24,7 @@
                           <option value="{{ $prov->id}},{{ $prov->nombres }},{{ $prov->paterno }},{{ $prov->materno }}" {{ (isset($ingreso) && $ingreso->id_proveedor == $prov->id) || old('proveedor') == $prov->id ? 'selected' : '' }}>
                             {{ $prov->nombres .' ' . $prov->paterno .' ' . $prov->materno }}
                           </option>
-                          @endforeach         
+                          @endforeach
                         </select>
                         @error('proveedor') <span class="text-danger">* {{ $message }}</span> @enderror
                       </div>
@@ -38,7 +38,7 @@
                           <option value="{{ $art->id }},{{ $art->nombre }}">
                             {{ $art->nombre }}
                           </option>
-                          @endforeach         
+                          @endforeach
                         </select>
                         @error('articulo') <span class="text-danger">* {{ $message }}</span> @enderror
                       </div>
@@ -86,7 +86,7 @@
                   </div>
                   <table id="detalles" class="table table-striped table-bordered table-sm">
                     <thead align="center">
-                      <th><i data-feather='life-buoy'></i></th> 
+                      <th><i data-feather='life-buoy'></i></th>
                       <th>PRODUCTO</th>
                       <th>CANTIDAD</th>
                       <th>P. COMPRA</th>
@@ -96,7 +96,7 @@
                     <tbody>
                     </tbody>
                   </table>
-                  <div class="flex-grow-1 border-bottom-dark"></div> 
+                  <div class="flex-grow-1 border-bottom-dark"></div>
                   <div class="row mt-1">
                     <div class="col-md-4">
                       <div class="input-group">
@@ -129,7 +129,7 @@
                       </div>
                     </div>
                   </div>
-                </div>                
+                </div>
               </div>
             </div>
           </div>
@@ -193,7 +193,7 @@
   $('#proveedor').change(function() {
 
     var selectedValue = $(this).val().split(',')[1]+' '+$(this).val().split(',')[2]+' '+$(this).val().split(',')[3];
-    
+
     // Establecer el valor seleccionado en el contenido del span
     $('#prov').text(selectedValue);
 
@@ -202,7 +202,7 @@
 
   $(document).ready(function() {
     $('#bt_add').click(function() {
-      
+
       agregar();
     });
   });
@@ -228,7 +228,7 @@
       limpiar();
       $("#total").val(total+'.00');
       cargarSaldo();
-      //evaluar(); 
+      //evaluar();
       $('#detalles').append(fila);
       push_array();
     }else {

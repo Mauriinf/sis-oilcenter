@@ -15,33 +15,34 @@ $(document).ready( function () {
             data: $(this).serialize(),
             dataType: 'json',
             cache: false,
-        }).done(function (data) {
-            if($.isEmptyObject(data.errors)) {
-                console.log(data);
-                if(data[0]==='OK'){
-                    Swal.fire({
-                        type: "success",
-                        title: "¡Registrado Correctamente!",
-                        showConfirmButton: true,
-                        confirmButtonText: "Ok"
+            success: function(response){
+                $('#mensaje p').text(response.success);
+                $('#mensaje').show();
+                $('#modal-agregar').modal('hide');
+                limpiar();
+                Swal.fire({
+                    type: "success",
+                    title: "¡Registrado Correctamente!",
+                    showConfirmButton: true,
+                    confirmButtonText: "Ok"
 
-                    });
-                    $('#modal-agregar').modal('hide');
-                }else{
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: data[0]
-                    });
+                });
+                $('#tdLista').DataTable().ajax.reload();
+            },
+            error: function(xhr, textStatus, errorThrown){
+                var errors = xhr.responseJSON;
+                console.log(errors.errors)
+                if (errors.errors.hasOwnProperty('nombre_tipo')) {
+                $('#errorTipo').text(errors.errors.nombre_tipo[0]);
+                $('input[name=nombre_tipo]').addClass('border border-danger');
                 }
-                $(".print-error-msg").css('display','none');//ocultar div de errores
-            } else {
-                printErrorMsg(data,1);
             }
-            $('#tdLista').DataTable().ajax.reload();
         });
     });
-
+function limpiar(){
+    $('#id_edit').val("");
+    $('#nombre_tipo').val("");
+}
 function printErrorMsg (msg,accion) {
     if(accion==1){
         $(".print-error-msg").find("ul").html('');

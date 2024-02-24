@@ -42,7 +42,7 @@ class ServicioController extends Controller
      */
     public function create()
     {
-        $clientes = User::with('cliente', 'proveedor')->get();//proveedor puede ser un cliente mas
+        $clientes = User::role(['Cliente','Proveedor'])->get();//proveedor puede ser un cliente mas
         $tipos = TipoServicio::where('estado', 'ACTIVO')->get();
 
         return view("servicios.form",["clientes" => $clientes, 'tiposervicio' => $tipos]);

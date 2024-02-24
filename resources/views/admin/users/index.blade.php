@@ -25,7 +25,7 @@
                         <div class="pull-right">
 
                             <div class="input-group-prepend pull-right">
-                                @can('crear-usuarios')
+                                @can('registrar-usuarios')
                                 <a class="btn btn-primary" href="{{ route("users.create") }}" class="dropdown-item mb-1">
                                     <i data-feather='user-plus'></i>
                                     Nuevo Usario
@@ -88,16 +88,6 @@
                                             <a class="btn btn-sm btn-info " data-toggle="tooltip" title="Ver" href="{{ route('users.show',$user->id) }}"><i data-feather='eye'></i></a>
                                             @can('editar-usuarios')
                                             <a class="btn btn-sm  btn-primary" data-toggle="tooltip" title="Editar" href="{{ route('users.edit',$user->id) }}"><i data-feather='edit'></i></a>
-                                            @endcan
-                                            @can('asignar-especialidad-usuario')
-                                                @foreach($user->getRoleNames() as $v)
-                                                    @if($v==='Doctor')
-                                                        <button class="btn btn-sm btn-warning" data-toggle="tooltip" title="Especialidad" type="button" onclick="f_especialidades({{$user->id}})"> <i data-feather='headphones'></i> </button>
-                                                        @php
-                                                            break;
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
                                             @endcan
                                             @can('eliminar-usuarios')
                                                 {!! Form::open(['method' => 'DELETE','route' => ['users.destroy', $user->id],'style'=>'display:inline']) !!}

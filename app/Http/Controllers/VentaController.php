@@ -32,7 +32,7 @@ class VentaController extends Controller
   }
   public function create() {
 
-    $cliente = User::with('cliente')->get();
+    $cliente = User::role(['Cliente','Proveedor'])->get();
     $articulo = Articulo::where('estado', 1)->get();
 
     return view("venta.form",["cliente" => $cliente, 'articulo' => $articulo]);

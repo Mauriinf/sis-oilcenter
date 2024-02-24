@@ -6,6 +6,7 @@ use App\Models\TipoServicio;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\TipoServicioFormRequest;
 class TipoServicioController extends Controller
 {
     /**
@@ -40,27 +41,24 @@ class TipoServicioController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TipoServicioFormRequest $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'nombre_tipo'=> 'required'
-            ],
-            [
-                'nombre_tipo.required'=>'El campo nombre es requerido'
-            ]
-        );
-        if (!$validator->fails()) {
-            $respuesta=Array();
-            $tipo_servicio = TipoServicio::create([
-                'nombre' => $request->get('nombre_tipo'),
-                'estado' => 'ACTIVO'
-              ]);
-            array_push($respuesta,'OK');
-            return ($respuesta);
+        $tipo_servicio = TipoServicio::create([
+            'nombre' => $request->get('nombre_tipo'),
+            'estado' => 'ACTIVO'
+          ]);
+        if (!empty($tipo_servicio)) {
+            return response()->json([
+            'success' => 'El tipo de servicio se creó correctamente'
+            ],201);
+
         }else{
-            return response()->json(['errors' => $validator->errors()->all()]);
+            return response()->json([
+                'status' => 'Ocurrio un error!',
+                'message' =>  'No se completó la tarea'
+
+              ],400);
+            //return response()->json(['errors' => $validator->errors()->all()]);
             //return response()->json($validator->errors()->all());
         }
     }

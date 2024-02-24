@@ -1,5 +1,5 @@
 @extends('vuexy.layouts.default', ['activePage' => 'articulo'])
-@section('title','Usuarios')
+@section('title','Artículos')
 @push('css-vendor')
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/vendors.min.css') !!}">
@@ -30,14 +30,16 @@
               @endif
               <div class="card">
                 <div class="card-header">
-                  <h4 class="card-title">Articulos</h4>
+                  <h4 class="card-title">Artículos</h4>
                   <div class="pull-right">
+                    @can('registrar-articulos')
                     <a class="btn btn-primary" href="{{ route('articulo.create') }}">
-                      <span>
-                        <i data-feather='plus'></i>
-                        Crear Articulo
-                      </span>
+                        <span>
+                          <i data-feather='plus'></i>
+                          Nuevo Artículo
+                        </span>
                     </a>
+                    @endcan
                   </div>
                 </div>
                 <div class="card-body">
@@ -73,21 +75,40 @@
                           @endif
                           <td>
                             <div>
-                              <a class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" href="{{ route('articulo.edit',$art->id) }}">
-                                <i data-feather='edit'></i>
-                              </a>
-                              @if ($art->estado == 1)
-                                {!! Form::open(['method' => 'GET', 'route' => ['articulo.disable', $art->id], 'style' => 'display:inline']) !!}
-                                <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de inhabilitar este registro?')">
-                                  <i data-feather='trash-2'></i>
-                                </button>
-                              @else
-                                {!! Form::open(['method' => 'GET', 'route' => ['articulo.enable', $art->id], 'style' => 'display:inline']) !!}
-                                <button type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de habilitar este registro?')">
-                                  <i data-feather='trash-2'></i>
-                                </button>
-                              @endif
-                              {!! Form::close() !!}
+                            @can('editar-articulos')
+                                <a class="btn btn-sm btn-primary" data-toggle="tooltip" title="Editar" href="{{ route('articulo.edit',$art->id) }}">
+                                    <i data-feather='edit'></i>
+                                </a>
+                                @can('habilitar-inhabilitar-articulos')
+                                    @if ($art->estado == 1)
+                                        {!! Form::open(['method' => 'GET', 'route' => ['articulo.disable', $art->id], 'style' => 'display:inline']) !!}
+                                        <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de inhabilitar este registro?')">
+                                        <i data-feather='trash-2'></i>
+                                        </button>
+                                    @else
+                                        {!! Form::open(['method' => 'GET', 'route' => ['articulo.enable', $art->id], 'style' => 'display:inline']) !!}
+                                        <button type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de habilitar este registro?')">
+                                        <i data-feather='trash-2'></i>
+                                        </button>
+                                    @endif
+                                    {!! Form::close() !!}
+                                @endcan
+                            @elsecan('habilitar-inhabilitar-articulos')
+                                @if ($art->estado == 1)
+                                    {!! Form::open(['method' => 'GET', 'route' => ['articulo.disable', $art->id], 'style' => 'display:inline']) !!}
+                                    <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de inhabilitar este registro?')">
+                                    <i data-feather='trash-2'></i>
+                                    </button>
+                                @else
+                                    {!! Form::open(['method' => 'GET', 'route' => ['articulo.enable', $art->id], 'style' => 'display:inline']) !!}
+                                    <button type="submit" class="btn btn-sm btn-success" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de habilitar este registro?')">
+                                    <i data-feather='trash-2'></i>
+                                    </button>
+                                @endif
+                                {!! Form::close() !!}
+                                @else
+                                <span class="badge badge-light-warning">Sin Permisos</span>
+                            @endcan
                             </div>
                           </td>
                         </tr>

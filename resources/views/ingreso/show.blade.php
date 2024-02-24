@@ -34,11 +34,11 @@
                       </div>
                       <div class="apply-job-package bg-light-primary rounded p-1">
                         <strong>Almacenero</strong>
-                        <p class="m-0">{{$ingreso->almacenero->nombres.' '.$ingreso->almacenero->paterno.' '.$ingreso->almacenero->materno}}</p>                        
+                        <p class="m-0">{{$ingreso->almacenero->nombres.' '.$ingreso->almacenero->paterno.' '.$ingreso->almacenero->materno}}</p>
                       </div>
                     </div>
                     <div class="col-sm-3">
-                      
+
                     </div>
                     <div class="col-sm-3 ms-auto">
                       <div class="card card-transaction m-0">
@@ -99,15 +99,16 @@
                 </div>
                 <div class="card-footer">
                   <a class="btn btn-secondary float-md-start" href="javascript:history.back(-1);" title="Ir la página anterior" class="fa fa-hand-o-left">Volver</a>
-
-                  @if($ingreso->estado == 1)
-                    <button type="button" id="bt_pagar" class="btn btn-success float-md-end" data-bs-toggle="modal" data-bs-target="#inlineForm">
-                      <span>
-                        <i data-feather='money'></i>
-                        Cancelar saldo
-                      </span>
-                    </button>
-                  @endif
+                    @can('cancelar-saldo-ingreso')
+                        @if($ingreso->estado == 1)
+                            <button type="button" id="bt_pagar" class="btn btn-success float-md-end" data-bs-toggle="modal" data-bs-target="#inlineForm">
+                            <span>
+                                <i data-feather='money'></i>
+                                Cancelar saldo
+                            </span>
+                            </button>
+                        @endif
+                    @endcan
                 </div>
               </div>
             </div>

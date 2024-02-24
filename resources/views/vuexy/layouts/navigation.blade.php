@@ -35,31 +35,47 @@
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Articulo"></span>Articulo
                 </a>
             </li>
+            @can('lista-ingresos')
             <li class=" nav-item {{ $activePage == 'ingreso' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('ingreso.index') }}">
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Ingreso"></span>Ingreso
                 </a>
             </li>
+            @endcan
+            @can('lista-ventas')
             <li class=" nav-item {{ $activePage == 'venta' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('venta.index') }}">
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Venta"></span>Venta
                 </a>
             </li>
+            @endcan
+            @can('lista-servicios')
             <li class=" nav-item {{ $activePage == 'servicios' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('servicios.index') }}">
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Servicios"></span>Servicios
                 </a>
             </li>
+            @endcan
+            @can('lista-publicaciones')
             <li class=" nav-item {{ $activePage == 'publicacion' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('publicacion.index') }}">
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Publicacion"></span>Publicaciones
                 </a>
             </li>
+            @endcan
+            @can('lista-categorias')
             <li class=" nav-item {{ $activePage == 'configuraciones' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('tiposervicio.index') }}">
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Configuraciones"></span>Configuraciones
                 </a>
             </li>
+            @elsecan('lista-tipos-servicios')
+            <li class=" nav-item {{ $activePage == 'configuraciones' ? ' active' : '' }} ">
+                <a class="d-flex align-items-center" href="{{ route('tiposervicio.index') }}">
+                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Configuraciones"></span>Configuraciones
+                </a>
+            </li>
+            @endcan
         </ul>
     </div>
 </div>

@@ -36,12 +36,14 @@
                 <div class="card-header">
                   <h4 class="card-title">Servicios</h4>
                   <div class="pull-right">
-                    <a class="btn btn-primary" href="{{ route('servicio.create') }}">
-                      <span>
-                        <i data-feather='plus'></i>
-                        Crear Servicio
-                      </span>
-                    </a>
+                    @can('registrar-servicios')
+                        <a class="btn btn-primary" href="{{ route('servicio.create') }}">
+                            <span>
+                            <i data-feather='plus'></i>
+                            Registrar Servicio
+                            </span>
+                        </a>
+                    @endcan
                   </div>
                 </div>
                 <div class="card-body">
@@ -77,14 +79,22 @@
                           @endif
                           <td>
                             <div>
-                              <a class="btn btn-sm btn-info" data-toggle="tooltip" title="Mostrar" href="{{ route('servicio.show',$item->id) }}">
-                                <i data-feather='eye'></i>
-                              </a>
-                              <a href="javascript:void(0)"  class="btn btn-sm btn-danger" onclick="eliminarServicio(<?php echo $item->id; ?>)"><i data-feather='trash-2' ></i></a>
-                            <form id="delete-form" method="post" class="d-none">
-                                @csrf
-                                @method('DELETE')
-                            </form>
+                                @can('ver-detalle-servicio')
+                                    <a class="btn btn-sm btn-info" data-toggle="tooltip" title="Mostrar" href="{{ route('servicio.show',$item->id) }}">
+                                        <i data-feather='eye'></i>
+                                    </a>
+                                    @can('eliminar-servicio')
+                                        <a href="javascript:void(0)"  class="btn btn-sm btn-danger" onclick="eliminarServicio(<?php echo $item->id; ?>)"><i data-feather='trash-2' ></i></a>
+                                    @endcan
+                                @elsecan('eliminar-servicio')
+                                    <a href="javascript:void(0)"  class="btn btn-sm btn-danger" onclick="eliminarServicio(<?php echo $item->id; ?>)"><i data-feather='trash-2' ></i></a>
+                                @else
+                                    <span class="badge badge-light-warning">Sin Permisos</span>
+                                @endcan
+                                <form id="delete-form" method="post" class="d-none">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
                             </div>
                           </td>
                         </tr>

@@ -102,7 +102,7 @@ class CreateAdminUserSeeder extends Seeder
         $permissions = Permission::pluck('id','id')->all();
         $role->syncPermissions($permissions);
         $user->assignRole([$role->id]);
-        
+
         //crear roles y asignar permisos
         Role::create(['name' => 'Vendedor']);
         Role::create(['name' => 'Cliente']);
@@ -129,14 +129,14 @@ class CreateAdminUserSeeder extends Seeder
             'lista-usuarios',
             'editar-usuarios',
             'lista-categorias',
-            'crear-categorias',
+            'registrar-categorias',
             'editar-categorias',
             'habilitar-inhabilitar-categorias',
             'lista-tipos-servicios',
             'crear-tipos-servicios',
             'editar-tipos-servicios',
             'lista-articulos',
-            'crear-articulos',
+            'registrar-articulos',
             'editar-articulos',
             'habilitar-inhabilitar-articulos',
         ];
