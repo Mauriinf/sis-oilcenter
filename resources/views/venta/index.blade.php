@@ -1,5 +1,5 @@
 @extends('vuexy.layouts.default', ['activePage' => 'venta'])
-@section('title','Venta')
+@section('title','Ventas')
 @push('css-vendor')
     <!-- END: Page CSS-->
 @endpush
@@ -17,12 +17,14 @@
                 <div class="card-header">
                   <h4 class="card-title">Ventas</h4>
                   <div class="pull-right">
-                    <a class="btn btn-primary" href="{{ route('venta.create') }}">
-                      <span>
-                        <i data-feather='plus'></i>
-                        Realizar Venta
-                      </span>
-                    </a>
+                    @can('registrar-ventas')
+                        <a class="btn btn-primary" href="{{ route('venta.create') }}">
+                            <span>
+                            <i data-feather='plus'></i>
+                            Realizar Venta
+                            </span>
+                        </a>
+                    @endcan
                   </div>
                 </div>
                 <div class="card-body">
@@ -58,20 +60,40 @@
                           @endif
                           <td>
                             <div class="d-flex">
-                              <a class="btn btn-sm btn-info" style="margin-right:5px" data-toggle="tooltip" title="Mostrar" href="{{ route('venta.show',$ven->id) }}">
-                                <i data-feather='eye'></i>
-                              </a>
-                              {!! Form::open(['method' => 'GET', 'route' => ['venta.cancel', $ven->id], 'style' => 'display:inline']) !!}
-                                @if($ven->estado == 1)
-                                  <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de anular este registro?')">
-                                    <i data-feather='trash-2'></i>
-                                  </button>
+                                @can('ver-detalle-ventas')
+                                    <a class="btn btn-sm btn-info" style="margin-right:5px" data-toggle="tooltip" title="Mostrar" href="{{ route('venta.show',$ven->id) }}">
+                                        <i data-feather='eye'></i>
+                                    </a>
+                                    @can('eliminar-ventas')
+                                        {!! Form::open(['method' => 'GET', 'route' => ['venta.cancel', $ven->id], 'style' => 'display:inline']) !!}
+                                            @if($ven->estado == 1)
+                                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de anular este registro?')">
+                                                <i data-feather='trash-2'></i>
+                                            </button>
+                                            @else
+                                            <button type="button" class="btn btn-sm btn-danger" disabled>
+                                                <i data-feather='trash-2'></i>
+                                            </button>
+                                            @endif
+                                        {!! Form::close() !!}
+                                    @endcan
+                                @elsecan('eliminar-ventas')
+                                    {!! Form::open(['method' => 'GET', 'route' => ['venta.cancel', $ven->id], 'style' => 'display:inline']) !!}
+                                        @if($ven->estado == 1)
+                                        <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de anular este registro?')">
+                                            <i data-feather='trash-2'></i>
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-sm btn-danger" disabled>
+                                            <i data-feather='trash-2'></i>
+                                        </button>
+                                        @endif
+                                    {!! Form::close() !!}
                                 @else
-                                  <button type="button" class="btn btn-sm btn-danger" disabled>
-                                    <i data-feather='trash-2'></i>
-                                  </button>
-                                @endif
-                              {!! Form::close() !!}
+                                <span class="badge badge-light-warning">Sin Permisos</span>
+                                @endcan
+
+
                             </div>
                           </td>
                         </tr>

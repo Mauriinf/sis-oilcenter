@@ -22,46 +22,53 @@
   <div class="content-body">
     <div class="row">
       <div class="col-sm-6">
-        <div class="card">
-          <div class="card-header border-bottom">
-            <h4 >
-              Tipos de Servicios
-            </h4>
-            <div class="pull-right">
-              <div class="input-group-prepend pull-right btnagregar">
-                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal-agregar">
-                  <i data-feather='plus'></i>
-                  Nuevo
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-12">
-                <div class="card">
-                  <div class="table-responsive listaregistros">
-                    <table class="table table-striped table-bordered table-td-valign-middle dt-responsive" id="tdLista">
-                      <thead class="thead">
-                        <tr>
-
-                          <th>Nro</th>
-                          <th>Nombre</th>
-                          <th>Estado</th>
-                          <th >Actiones</th>
-                        </tr>
-                      </thead>
-                      <tbody >
-
-                      </tbody>
-                    </table>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="alert alert-success p-2" id="mensaje" style="display: none;">
+            <p></p>
         </div>
+        @can('lista-tipos-servicios')
+            <div class="card">
+                <div class="card-header border-bottom">
+                <h4 >
+                    Tipos de Servicios
+                </h4>
+                <div class="pull-right">
+                    <div class="input-group-prepend pull-right btnagregar">
+                    @can('crear-tipos-servicios')
+                    <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modal-agregar">
+                        <i data-feather='plus'></i>
+                        Nuevo
+                    </button>
+                    @endcan
+                    </div>
+                </div>
+                </div>
+                <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive listaregistros">
+                        <table class="table table-striped table-bordered table-td-valign-middle dt-responsive" id="tdLista">
+                            <thead class="thead">
+                            <tr>
+
+                                <th>Nro</th>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                                <th >Actiones</th>
+                            </tr>
+                            </thead>
+                            <tbody >
+
+                            </tbody>
+                        </table>
+                        </div>
+
+                    </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        @endcan
       </div>
       <div class="col-md-6">
         <div>
@@ -69,34 +76,40 @@
             <p></p>
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <h4 class="card-title">Tipo de categoria</h4>
-            <div class="pull-right">
-              <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" id="agregarCat" data-bs-target="#Articulo">
-                <i data-feather='plus'></i>
-                <span>Crear Categoria</span>
-              </button>
+        @can('lista-categorias')
+            <div class="card">
+                <div class="card-header">
+                <h4 class="card-title">Tipo de categoria</h4>
+                <div class="pull-right">
+                    @can('registrar-categorias')
+                    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" id="agregarCat" data-bs-target="#Articulo">
+                        <i data-feather='plus'></i>
+                        <span>Crear Categoria</span>
+                    </button>
+                    @endcan
+
+                </div>
+                </div>
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-td-valign-middle dt-responsive" id="dt-Categoria">
+                    <thead class="thead" align="center">
+                        <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Estado</th>
+                        <th><i data-feather='life-buoy'></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    </table>
+                </div>
+                </div>
             </div>
-          </div>
-          <div class="card-body">
-            <div class="card-datatable">
-              <table class="table table-striped table-bordered table-td-valign-middle dt-responsive" id="dt-Categoria">
-                <thead class="thead" align="center">
-                  <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Estado</th>
-                    <th><i data-feather='life-buoy'></i></th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        @endcan
+
         <div class="modal fade" id="Articulo" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -156,6 +169,7 @@
                         Nombre
                       </span>
                       <input type="text" class="form-control" id="nombre_tipo" name="nombre_tipo" placeholder="Nombre" value="" />
+                      <span class="text-danger" id="errorTipo"></span>
                     </div>
                   </div>
                 </div>
@@ -317,7 +331,7 @@
       method: 'GET',
       success: function(response) {
         $('#dt-Categoria tbody').empty();
-        cargarDatos(response.categoria);
+        cargarDatos(response.categoria,response.permisos);
         tableAdd();
       },
       error: function(error) {
@@ -346,22 +360,25 @@
 
   };
 
-  function cargarDatos(categoria){
+  function cargarDatos(categoria,permisos){
 
     $.each(categoria, function(index, categoria) {
-
-      var btnEditar = '<button class="btn btn-warning btn-sm btnEdit" style="margin-right:5px;" data-id="' + categoria.id + '" data-nombre="' + categoria.nombre + '" data-descripcion="' + categoria.descripcion + '">Editar</button>';
-
-      var estado = (categoria.estado == 1) ? 'Activo' : 'Inactivo';
-      var btnEstado = (categoria.estado == 1) ? '<button class="btn btn-danger btn-sm btnDisable" data-id="' + categoria.id + '">Desabilitar</button>' : '<button class="btn btn-success btn-sm btnEnable" data-id="' + categoria.id + '">Habilitar</button>';
-
+      var botones='';
+        if(permisos.includes('editar-categorias'))
+        botones+='<button class="btn btn-warning btn-sm btnEdit" style="margin-right:5px;" data-id="' + categoria.id + '" data-nombre="' + categoria.nombre + '" data-descripcion="' + categoria.descripcion + '">Editar</button>';
+        if(permisos.includes('habilitar-inhabilitar-categorias')){
+            var estado = (categoria.estado == 1) ? 'Activo' : 'Inactivo';
+            botones += (categoria.estado == 1) ? '<button class="btn btn-danger btn-sm btnDisable" data-id="' + categoria.id + '">Desabilitar</button>' : '<button class="btn btn-success btn-sm btnEnable" data-id="' + categoria.id + '">Habilitar</button>';
+        }
+    if(botones=='')
+    botones='<span class="badge badge-light-warning">Sin Permisos</span>'
       $('#dt-Categoria tbody').append(
         '<tr>' +
         '<td>' + (index + 1 )+ '</td>' +
         '<td>' + categoria.nombre + '</td>' +
         '<td>' + categoria.descripcion + '</td>'+
         '<td align="center">' + estado + '</td>' +
-        '<td><div class="d-flex">' + btnEditar + btnEstado +' </div></td>' +
+        '<td><div class="d-flex">' + botones +' </div></td>' +
         '</tr>'
         );
     });
@@ -410,7 +427,7 @@
         $('#Articulo').modal('hide');
         limpiar();
         $('#dt-Categoria tbody').empty();
-        cargarDatos(response.categoria);
+        cargarDatos(response.categoria,response.permisos);
       },
       error: function(xhr, textStatus, errorThrown){
 
@@ -483,7 +500,7 @@
 
         $('#respuesta p').text(response.success);
         $('#respuesta').show();
-        
+
         indexCategoria();
 
       },
@@ -494,7 +511,7 @@
         console.log(errors.errors)
 
       }
-      
+
     });
 
 
@@ -505,6 +522,6 @@
     $('#nombreC').val("");
     $('#descripcionC').val("");
   }
-  
+
 </script>
 @endpush

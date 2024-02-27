@@ -3,14 +3,8 @@
 @section('content')
 <div class="content-wrapper p-0">
     <div class="content-body">
-        {!! Form::open(array('route' => ['ingreso.show.payment', $servicio->id], 'method' => 'PUT')) !!}
         <div class="row">
             <div class="col-sm-12">
-              @if(session('success'))
-                <div class="alert alert-success p-2">
-                  {{ session('success') }}
-                </div>
-              @endif
               <div class="card">
                 <div class="card-header  bg-light-success ">
                   <h4 class="card-title">Servicio</h4>
@@ -97,67 +91,11 @@
                 <div class="card-footer">
                   <a class="btn btn-secondary float-md-start" href="javascript:history.back(-1);" title="Ir la página anterior" class="fa fa-hand-o-left">Volver</a>
 
-                  @if($servicio->estado =='ACTIVO')
-                    <button type="button" id="bt_pagar" class="btn btn-success float-md-end" data-bs-toggle="modal" data-bs-target="#inlineForm">
-                      <span>
-                        <i data-feather='money'></i>
-                        Modificar Monto Cancelado
-                      </span>
-                    </button>
-                  @endif
+
                 </div>
               </div>
             </div>
         </div>
-        <div class="modal fade text-start" id="inlineForm" tabindex="-1" aria-labelledby="myModalLabel33" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel33">Modificar monto</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-                <div class="modal-body">
-                  <div class="row">
-                    <div class="col-md-7 ms-auto">
-                      <div class="input-group">
-                        <strong class="input-group-text bg-light-success" id="basic-addon3">Monto Bs:</strong>
-                        <input type="integer" class="form-control" name="m_amortizar" id="m_amortizar" value="0" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Modificar</button>
-                </div>
-            </div>
-          </div>
-        </div>
-        {!! Form::close() !!}
     </div>
 </div>
 @endsection
-
-@push('scripts-vendor')
-<script>
-  $(document).ready(function() {
-    $('#bt_pagar').click(function() {
-      $('#m_amortizar').val(0);
-    });
-  });
-
-  $('#m_amortizar').on('input', calcularMonto);
-
-  function calcularMonto(){
-
-    var cancelado=  $('#m_amortizar').val();
-
-    if (cancelado < 0) {
-      alert('El monto a cancelar no puede ser menor a 0');
-      $('#m_amortizar').val('0');
-    }
-  }
-
-</script>
-@endpush
-@push('scripts-page')
-@endpush

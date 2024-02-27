@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Categoria;
 
 use App\Http\Requests\CategoriaFormRequest;
+use Illuminate\Support\Facades\Auth;
 class CategoriaController extends Controller
 {
   public function index(){
@@ -13,8 +14,11 @@ class CategoriaController extends Controller
     $categoria = Categoria::all();
 
     if (!empty($categoria)) {
+        $user=Auth::user();
+        $permisos=$user->getAllPermissions()->pluck('name')->toArray();
       return response()->json([
-        'categoria' => $categoria
+        'categoria' => $categoria,
+        'permisos' =>$permisos
       ],201);
     }else{
       return response()->json([
@@ -33,8 +37,11 @@ class CategoriaController extends Controller
     ]);
 
     if (!empty($categoria)) {
+        $user=Auth::user();
+        $permisos=$user->getAllPermissions()->pluck('name')->toArray();
       return response()->json([
         'categoria' => Categoria::all(),
+        'permisos' =>$permisos,
         'success' => 'La categoria se creó correctamente'
       ],201);
     }else{
@@ -67,7 +74,7 @@ class CategoriaController extends Controller
     }
   }
   public function enable($id){
-    
+
     $categoria = Categoria::findOrFail($id)->update([
       'estado' => 1
     ]);

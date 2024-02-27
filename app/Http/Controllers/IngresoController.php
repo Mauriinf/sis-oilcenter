@@ -33,7 +33,7 @@ class IngresoController extends Controller
   }
   public function create() {
 
-    $proveedor = User::with('proveedor', 'almacenero')->get();
+    $proveedor = User::role(['Proveedor'])->get();
     $articulo = Articulo::where('estado', 1)->get();
 
     return view("ingreso.form",["proveedor" => $proveedor, 'articulo' => $articulo]);
@@ -74,10 +74,10 @@ class IngresoController extends Controller
     if ($ingreso) {
       return view('ingreso.show', ['ingreso' => $ingreso]);
     }
-  } 
+  }
   /*public function edit($id){
 
-    $ingreso = Ingreso::findOrFail($id);    
+    $ingreso = Ingreso::findOrFail($id);
     $proveedor = User::with('proveedor')->get();
     $articulo = Articulo::where('estado', 1)->get();
 
@@ -128,7 +128,7 @@ class IngresoController extends Controller
   public function destroy($id){
 
     $ingreso = Ingreso::findOrFail($id);
-    $ingreso->delete();   
+    $ingreso->delete();
 
     if (!empty($ingreso)) {
       return Redirect::to('ingreso')->with('success', 'El registro ha sido eliminado correctamente.');

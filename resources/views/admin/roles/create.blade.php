@@ -29,12 +29,15 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Permisos:</strong>
-                    <br/>
-                    @foreach($permission as $value)
-                        <label>{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                        {{ $value->name }}</label>
-                    <br/>
-                    @endforeach
+                    
+                    <div style="display: flex; flex-wrap: wrap;">
+                        @foreach($permission as $value)
+                            <label style="flex-basis: 50%; margin-bottom: 10px;">{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
+                            {{ $value->name }}</label>
+                    
+                        @endforeach
+                    </div>
+                   
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

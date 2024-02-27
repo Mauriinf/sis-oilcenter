@@ -1,5 +1,5 @@
 @extends('vuexy.layouts.default', ['activePage' => 'ingreso'])
-@section('title','Usuarios')
+@section('title','Ingresos')
 @push('css-vendor')
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{!! asset('app-assets/vendors/css/vendors.min.css') !!}">
@@ -32,12 +32,14 @@
                 <div class="card-header">
                   <h4 class="card-title">Ingresos</h4>
                   <div class="pull-right">
-                    <a class="btn btn-primary" href="{{ route('ingreso.create') }}">
-                      <span>
-                        <i data-feather='plus'></i>
-                        Crear Ingreso
-                      </span>
-                    </a>
+                    @can('registrar-ingresos')
+                        <a class="btn btn-primary" href="{{ route('ingreso.create') }}">
+                            <span>
+                            <i data-feather='plus'></i>
+                            Nuevo Ingreso
+                            </span>
+                        </a>
+                    @endcan
                   </div>
                 </div>
                 <div class="card-body">
@@ -70,23 +72,41 @@
                           <td><span class="badge badge-light-success w-100">ACTIVO</span></td>
                           @else
                           <td><span class="badge badge-light-danger w-100">ANULADO</span></td>
-                          @endif                          
+                          @endif
                           <td>
                             <div>
-                              <a class="btn btn-sm btn-info" data-toggle="tooltip" title="Mostrar" href="{{ route('ingreso.show',$ing->id) }}">
-                                <i data-feather='eye'></i>
-                              </a>
-                              {!! Form::open(['method' => 'GET', 'route' => ['ingreso.cancel', $ing->id], 'style' => 'display:inline']) !!}
-                                @if($ing->estado == 1)
-                                  <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de anular este registro?')">
-                                    <i data-feather='trash-2'></i>
-                                  </button>
+                                @can('ver-ingresos')
+                                    <a class="btn btn-sm btn-info" data-toggle="tooltip" title="Mostrar" href="{{ route('ingreso.show',$ing->id) }}">
+                                        <i data-feather='eye'></i>
+                                    </a>
+                                    @can('eliminar-ingresos')
+                                        {!! Form::open(['method' => 'GET', 'route' => ['ingreso.cancel', $ing->id], 'style' => 'display:inline']) !!}
+                                            @if($ing->estado == 1)
+                                            <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de anular este registro?')">
+                                                <i data-feather='trash-2'></i>
+                                            </button>
+                                            @else
+                                            <button type="button" class="btn btn-sm btn-danger" disabled>
+                                                <i data-feather='trash-2'></i>
+                                            </button>
+                                            @endif
+                                        {!! Form::close() !!}
+                                    @endcan
+                                @elsecan('eliminar-ingresos')
+                                    {!! Form::open(['method' => 'GET', 'route' => ['ingreso.cancel', $ing->id], 'style' => 'display:inline']) !!}
+                                        @if($ing->estado == 1)
+                                        <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Eliminar" onclick="return confirm('¿Estás seguro de anular este registro?')">
+                                            <i data-feather='trash-2'></i>
+                                        </button>
+                                        @else
+                                        <button type="button" class="btn btn-sm btn-danger" disabled>
+                                            <i data-feather='trash-2'></i>
+                                        </button>
+                                        @endif
+                                    {!! Form::close() !!}
                                 @else
-                                  <button type="button" class="btn btn-sm btn-danger" disabled>
-                                    <i data-feather='trash-2'></i>
-                                  </button>
-                                @endif
-                              {!! Form::close() !!}
+                                <span class="badge badge-light-warning">Sin Permisos</span>
+                                @endcan
                             </div>
                           </td>
                         </tr>
