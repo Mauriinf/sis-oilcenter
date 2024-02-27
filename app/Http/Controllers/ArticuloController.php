@@ -93,6 +93,11 @@ class ArticuloController extends Controller
     $articulo->stock += $stock;
     $articulo->save();
   }
+  public function discountStock($id, $stock){
+    $articulo = Articulo::findOrFail($id);
+    $articulo->stock -= $stock;
+    $articulo->save();
+  }
   public function enable($id){
 
     $articulo = Articulo::findOrFail($id)->update([

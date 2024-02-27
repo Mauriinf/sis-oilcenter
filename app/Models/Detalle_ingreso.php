@@ -27,6 +27,6 @@ class Detalle_ingreso extends Model
         return $this->belongsTo(Articulo::class, 'id_articulo', 'id');
     }
     public function ingreso(){
-        return $this->belongsTo(Categoria::class, 'id_ingreso', 'id');
+        return $this->belongsTo(Ingreso::class, 'id_ingreso', 'id');
     }
 }

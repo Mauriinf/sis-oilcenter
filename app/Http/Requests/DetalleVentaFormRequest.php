@@ -28,7 +28,7 @@ class DetalleVentaFormRequest extends FormRequest
             'id_articulo'=>'required',
             'id_venta'=>'required',
             'd_cantidad'=>'required',
-            'd_p_venta'=>'required'
+            'precio'=>'required'
             
         ];
     }

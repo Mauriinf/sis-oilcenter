@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -11,6 +10,8 @@ use App\Http\Controllers\CategoriaController as Categoria;
 use App\Http\Controllers\ArticuloController as Articulo;
 use App\Http\Controllers\IngresoController as Ingreso;
 use App\Http\Controllers\VentaController as Venta;
+
+use App\Http\Controllers\ReporteController as Reporte;
 
 
 use App\Http\Controllers\TipoServicioController as Tipos;
@@ -81,6 +82,7 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('venta/edit/{id}', [Venta::class, 'edit'])->name('venta.edit');
     Route::put('/venta/{id}', [Venta::class, 'update'])->name('venta.update');
     Route::put('/venta/show/payment/{id}', [Venta::class, 'payment'])->name('venta.show.payment');
+    Route::get('/venta/precio/{id}', [Venta::class, 'precio'])->name('venta.precio');
     Route::get('/venta/cancel/{id}', [Venta::class, 'cancel'])->name('venta.cancel');
 
 
@@ -103,4 +105,14 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('publicacion/edit/{id}', [Publicacion::class, 'edit'])->name('publicacion.edit');
     Route::put('/publicacion/{id}', [Publicacion::class, 'update'])->name('publicacion.update');
     Route::delete('/publicacion/{id}', [Publicacion::class, 'destroy'])->name('publicacion.destroy');
+
+    Route::get('/reporte', [Reporte::class, 'general'])->name('reporte.general');
+
+    Route::post('reporte/venta', [Reporte::class, 'venta'])->name('reporte.venta');
+    Route::post('reporte/ingreso', [Reporte::class, 'ingreso'])->name('reporte.ingreso');
+    Route::get('reporte/cliente', [Reporte::class, 'cliente'])->name('reporte.cliente');
+    Route::get('reporte/usuario', [Reporte::class, 'usuario'])->name('reporte.usuario');
+
+
+
 });

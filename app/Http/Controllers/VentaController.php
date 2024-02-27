@@ -12,6 +12,7 @@ use App\Models\Venta;
 
 use App\Http\Controllers\DetalleVentaController;
 use App\Http\Controllers\ArticuloController;
+use App\Http\Controllers\DetalleIngresoController;
 
 use App\Http\Requests\VentaFormRequest;
 use App\Http\Requests\DetalleVentaFormRequest;
@@ -49,21 +50,23 @@ class VentaController extends Controller
       'monto_deuda' => $request->get('saldo')
     ]);
 
+    if (!$venta) {
+      return redirect()->back()->withErrors('No se pudo realizar la venta, vuelva a intentarlo.');
+    }
+
     $form_request = new DetalleVentaFormRequest($request->all());
     $det_ven = new DetalleVentaController();
     $detalle = $det_ven->store($form_request, $venta->id);
 
-    if ($detalle->getStatusCode() == 400) {
+    if ($detalle->getStatusCode() == 400 || $detalle->getStatusCode() == 422) {
 
-      return view('venta')->withErrors($detalle->getData()->message);
+      return redirect()->back()->with([
+        'title' => $detalle->getData()->title,
+      ])->withErrors(['errors' => $detalle->getData()->message]);
 
     }
 
-    if (!empty($venta)) {
-      return Redirect::to('venta')->with('success', 'La venta ha sido realizado correctamente.');
-    }else{
-      return view('/venta')->withErrors('No se pudo realizar la venta, vuelva a intentarlo.');
-    }
+    return Redirect::to('venta')->with('success', 'La venta ha sido realizado correctamente.');
   }
   public function show($id){
 
@@ -121,6 +124,26 @@ class VentaController extends Controller
     }else{
       return view('/venta')->withErrors('No se pudo modificar el registro, vuelva a intentarlo.');
     }
+
+  }
+  public function precio($id){
+
+    $ingreso = new DetalleIngresoController();
+    $precio = $ingreso->precio($id);
+
+    if ($precio->getStatusCode() == 400) {
+
+      return response()->json([
+        'status' => 'Ocurrio un error!',
+        'message' => 'No se pudo obtener el ingreso para este producto, vuelva a consultar más tarde',
+      ],400);
+
+    }
+
+    return response()->json([
+      'precio' => $precio->getData()->precio
+    ],201);
+
 
   }
 }

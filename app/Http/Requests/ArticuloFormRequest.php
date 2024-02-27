@@ -25,7 +25,7 @@ class ArticuloFormRequest extends FormRequest
     {
         return [
 
-            'categoria'=>'required',
+            'categoria'=>'required|not_in:0',
             'nombre'=>'required|max:100',
             'descripcion'=>'required|max:250',
             'codigo'=>'required|max:20'

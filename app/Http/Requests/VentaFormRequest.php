@@ -24,9 +24,8 @@ class VentaFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'cliente'=>'required',
-            'total'=>'required',
-            'cancelado'=>'required',
+            'cliente'=>'required|not_in:0',
+            'total'=>'required|numeric|min:1',
             'saldo'=>'required'
             
         ];

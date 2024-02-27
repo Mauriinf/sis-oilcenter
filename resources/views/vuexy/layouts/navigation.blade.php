@@ -60,6 +60,11 @@
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Configuraciones"></span>Configuraciones
                 </a>
             </li>
+            <li class=" nav-item {{ $activePage == 'reporte' ? ' active' : '' }} ">
+                <a class="d-flex align-items-center" href="{{ route('reporte.general') }}">
+                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="reportes"></span>Reportes
+                </a>
+            </li>
         </ul>
     </div>
 </div>

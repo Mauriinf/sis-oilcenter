@@ -37,7 +37,7 @@
                             <i data-feather='plus'></i>
                           </button>
                           <select class="form-select @if($errors->has('categoria')) border border-danger @endif" name="categoria" id="categoria">
-                            <option>Seleccione...</option>
+                            <option value="0">Seleccione...</option>
                             @foreach ($categoria as $cat)
                             <option value="{{ $cat->id }}" {{ (isset($articulo) && $articulo->id_categoria == $cat->id) || old('categoria') == $cat->id ? 'selected' : '' }}>
                               {{ $cat->nombre }}
@@ -63,8 +63,7 @@
                       <div class="col-md-12 mb-2">
                         <div class="form-group">
                           <label>Detalle:</label>
-                          <textarea class="form-control" name="descripcion" placeholder="...">{{ isset($articulo) ? $articulo->descripcion : old('descripcion') }}
-                          </textarea>
+                          <textarea class="form-control" name="descripcion" placeholder="...">{{isset($articulo) ? $articulo->descripcion : old('descripcion') }}</textarea>
                         </div>
                       </div>
                     </div>

@@ -42,4 +42,24 @@ class DetalleIngresoController extends Controller
       ],201);
     }
   }
+  public function precio($id){
+
+    $precio = Detalle_ingreso::select('id', 'id_articulo', 'precio_venta_factura', 'precio_venta_normal')
+    ->with('articulo:id,stock')
+    ->where('id_articulo', $id)
+    ->orderBy('id', 'desc')
+    ->first();
+
+    if (!empty($precio)) {
+      return response()->json([
+        'precio' => $precio
+      ],201);
+    }else{
+      return response()->json([
+        'status' => 'Ocurrio un error!',
+        'message' => 'No se pudo obtener un ingreso, vuelva a consultar más tarde',
+      ],400);
+    }
+
+  }
 }
