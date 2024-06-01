@@ -19,6 +19,14 @@ use App\Http\Requests\IngresoFormRequest;
 
 class IngresoController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:lista-ingresos|registrar-ingresos|ver-ingresos|elimminar-ingresos|cancelar-saldo-ingresos', ['only' => ['index','store']]);
+         $this->middleware('permission:registrar-ingresos', ['only' => ['create','store']]);
+         $this->middleware('permission:ver-ingresos', ['only' => ['show','update']]);
+         $this->middleware('permission:elimminar-ingresos', ['only' => ['destroy','cancel','payment']]);
+         $this->middleware('permission:cancelar-saldo-ingreso', ['only' => ['destroy','cancel','payment']]);
+    }
   public function index(){
 
     $ingreso = Ingreso::all();

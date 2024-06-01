@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\TipoServicioFormRequest;
 class TipoServicioController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:lista-tipos-servicios|crear-tipos-servicios|editar-tipos-servicios', ['only' => ['index','store']]);
+         $this->middleware('permission:crear-tipos-servicios', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-tipos-servicios', ['only' => ['edit','update']]);
+    }
     /**
      * Display a listing of the resource.
      *

@@ -13,6 +13,13 @@ class PublicacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+         $this->middleware('permission:lista-publicaciones|registrar-publicaciones|editar-publicaciones|eliminar-publicaciones', ['only' => ['index','store']]);
+         $this->middleware('permission:registrar-publicaciones', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-publicaciones', ['only' => ['edit','update']]);
+         $this->middleware('permission:eliminar-publicaciones', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $publicaciones = publicacion::all();
@@ -45,7 +52,7 @@ class PublicacionController extends Controller
     public function store(Request $request)
     {
         $nombreImagen = '';
-        
+
 
         $validator = Validator::make(
             $request->all(),
@@ -67,7 +74,7 @@ class PublicacionController extends Controller
                 $imagen = $request->file('avatar');
                 $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
                 $imagen->move(public_path('imagenes/publicacion'), $nombreImagen);
-        
+
             }
             $publicacion = publicacion::create([
             'id_usuario' => Auth::id(),
@@ -115,7 +122,7 @@ class PublicacionController extends Controller
     public function update(Request $request, $id)
     {
         $nombreImagen = '';
-        
+
 
         $validator = Validator::make(
             $request->all(),
@@ -135,7 +142,7 @@ class PublicacionController extends Controller
                 $imagen = $request->file('avatar');
                 $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
                 $imagen->move(public_path('imagenes/publicacion'), $nombreImagen);
-        
+
             }
             $publi = publicacion::findOrFail($id)->update([
                 'id_usuario' => Auth::id(),
@@ -144,7 +151,7 @@ class PublicacionController extends Controller
                 'imagen' => $nombreImagen,
                 'estado' => $request->get('estado')
               ]);
-           
+
             return Redirect::to('publicacion')->with('success', 'La publicacion ha sido modificado correctamente.');
         }else{
             return view('/publicacion')->withErrors('No se pudo actualizar el registro, vuelva a intentarlo.');

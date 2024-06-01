@@ -19,6 +19,14 @@ use App\Http\Requests\DetalleVentaFormRequest;
 
 class VentaController extends Controller
 {
+    function __construct()
+    {
+         $this->middleware('permission:lista-ventas|registrar-ventas|ver-detalle-ventas|elimminar-ventas|cancelar-saldo-ventas', ['only' => ['index','store','precio']]);
+         $this->middleware('permission:registrar-ventas', ['only' => ['create','store','precio']]);
+         $this->middleware('permission:ver-detalle-ventas', ['only' => ['show','update','precio']]);
+         $this->middleware('permission:elimminar-ventas', ['only' => ['destroy','cancel','payment','precio']]);
+         $this->middleware('permission:cancelar-saldo-ventas', ['only' => ['destroy','cancel','payment','precio']]);
+    }
   public function index(){
 
     $venta = Venta::all();

@@ -361,7 +361,6 @@
   };
 
   function cargarDatos(categoria,permisos){
-
     $.each(categoria, function(index, categoria) {
       var botones='';
         if(permisos.includes('editar-categorias'))

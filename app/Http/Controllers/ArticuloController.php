@@ -11,6 +11,14 @@ use Illuminate\Support\Str;
 
 class ArticuloController extends Controller
 {
+
+    function __construct()
+    {
+         $this->middleware('permission:lista-articulos|registrar-articulos|editar-articulos|habilitar-inhabilitar-articulos', ['only' => ['index','store']]);
+         $this->middleware('permission:registrar-articulos', ['only' => ['create','store']]);
+         $this->middleware('permission:editar-articulos', ['only' => ['edit','update']]);
+         $this->middleware('permission:habilitar-inhabilitar-articulos', ['only' => ['enable','disable','destroy']]);
+    }
   public function index(){
 
     $articulo = Articulo::with('categoria')->get();
@@ -125,7 +133,7 @@ class ArticuloController extends Controller
   public function destroy($id){
 
     $articulo = Articulo::findOrFail($id);
-    $articulo->delete();   
+    $articulo->delete();
 
     if (!empty($articulo)) {
       return Redirect::to('articulo')->with('success', 'El artículo ha sido eliminado correctamente.');

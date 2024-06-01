@@ -30,57 +30,56 @@
                 </a>
             </li>
             @endcan
+            @can('lista-articulos')
             <li class=" nav-item {{ $activePage == 'articulo' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('articulo.index') }}">
                     <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Articulo"></span>Articulo
                 </a>
             </li>
+            @endcan
             @can('lista-ingresos')
             <li class=" nav-item {{ $activePage == 'ingreso' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('ingreso.index') }}">
-                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Ingreso"></span>Ingreso
+                    <i data-feather='shopping-bag'></i><span class="menu-title text-truncate" data-i18n="Ingreso"></span>Ingreso
                 </a>
             </li>
             @endcan
             @can('lista-ventas')
             <li class=" nav-item {{ $activePage == 'venta' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('venta.index') }}">
-                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Venta"></span>Venta
+                    <i data-feather='shopping-cart'></i><span class="menu-title text-truncate" data-i18n="Venta"></span>Venta
                 </a>
             </li>
             @endcan
             @can('lista-servicios')
             <li class=" nav-item {{ $activePage == 'servicios' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('servicios.index') }}">
-                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Servicios"></span>Servicios
+                    <i data-feather='help-circle'></i><span class="menu-title text-truncate" data-i18n="Servicios"></span>Servicios
                 </a>
             </li>
             @endcan
             @can('lista-publicaciones')
             <li class=" nav-item {{ $activePage == 'publicacion' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('publicacion.index') }}">
-                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Publicacion"></span>Publicaciones
+                    <i data-feather='file-text'></i><span class="menu-title text-truncate" data-i18n="Publicacion"></span>Publicaciones
                 </a>
             </li>
             @endcan
-            @can('lista-categorias')
+            @if (auth()->user()->can('lista-categorias') || auth()->user()->can('lista-tipos-servicios'))
             <li class=" nav-item {{ $activePage == 'configuraciones' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('tiposervicio.index') }}">
-                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Configuraciones"></span>Configuraciones
+                    <i data-feather='settings'></i><span class="menu-title text-truncate" data-i18n="Configuraciones"></span>Configuraciones
                 </a>
             </li>
+            @endif
+
+            @if (auth()->user()->hasAnyRole(['Admin', 'Vendedor','Mecanico']))
             <li class=" nav-item {{ $activePage == 'reporte' ? ' active' : '' }} ">
                 <a class="d-flex align-items-center" href="{{ route('reporte.general') }}">
-                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="reportes"></span>Reportes
+                    <i data-feather='pie-chart'></i><span class="menu-title text-truncate" data-i18n="reportes"></span>Reportes
                 </a>
             </li>
-            @elsecan('lista-tipos-servicios')
-            <li class=" nav-item {{ $activePage == 'configuraciones' ? ' active' : '' }} ">
-                <a class="d-flex align-items-center" href="{{ route('tiposervicio.index') }}">
-                    <i data-feather='box'></i><span class="menu-title text-truncate" data-i18n="Configuraciones"></span>Configuraciones
-                </a>
-            </li>
-            @endcan
+            @endif
         </ul>
     </div>
 </div>

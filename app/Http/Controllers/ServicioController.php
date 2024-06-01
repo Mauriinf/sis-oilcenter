@@ -17,11 +17,13 @@ use App\Http\Requests\DetalleServicioFormRequest;
 use App\Http\Requests\ServicioFormRequest;
 class ServicioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+         $this->middleware('permission:lista-servicios|registrar-servicios|ver-detalle-servicio|eliminar-servicio', ['only' => ['index','store']]);
+         $this->middleware('permission:registrar-servicios', ['only' => ['create','store']]);
+         $this->middleware('permission:ver-detalle-servicio', ['only' => ['show','update']]);
+         $this->middleware('permission:eliminar-servicio', ['only' => ['destroy']]);
+    }
     public function index()
     {
         $servicios = Servicio::all();
